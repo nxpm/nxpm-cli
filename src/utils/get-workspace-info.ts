@@ -28,7 +28,7 @@ export function getWorkspaceInfo({ cwd }: WorkspaceParams): WorkspaceInfo {
   }
 
   const type = workspaceJsonPath ? 'nx' : 'angular'
-  const workspacePath = workspaceJsonPath ? workspaceJsonPath : angularJsonPath
+  const workspacePath = workspaceJsonExists ? workspaceJsonPath : angularJsonPath
   if (!existsSync(nxJsonPath)) {
     throw new Error(`Can't find nx.json in ${nxJsonPath}`)
   }
