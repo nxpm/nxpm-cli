@@ -22,7 +22,7 @@ $ npm install -g nxpm
 $ nxpm COMMAND
 running command...
 $ nxpm (-v|--version|version)
-nxpm/0.0.0 darwin-x64 node-v12.16.2
+nxpm/1.0.0 darwin-x64 node-v12.16.2
 $ nxpm --help [COMMAND]
 USAGE
   $ nxpm COMMAND
@@ -72,5 +72,5 @@ OPTIONS
   -i, --allow-ivy  Allow publishing Angular packages built for Ivy
 ```
 
-_See code: [src/commands/release.ts](https://github.com/nxpm/nxpm/blob/v0.0.0/src/commands/release.ts)_
+_See code: [src/commands/release.ts](https://github.com/nxpm/nxpm/blob/v1.0.0/src/commands/release.ts)_
 <!-- commandsstop -->
