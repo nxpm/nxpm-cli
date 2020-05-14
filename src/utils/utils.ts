@@ -11,6 +11,11 @@ import { error, gray, greenBright, log, red, yellowBright } from './logging'
 export const exec = (command: string, options?: ExecSyncOptions): Buffer =>
   execSync(command, { stdio: [0, 1, 2], ...options })
 
+export const run = (command: string) => {
+  log('RUNNING', command)
+  exec(command)
+}
+
 export const getPackageJson = (root: string): { [key: string]: any } | null => {
   const pkgPath = join(process.cwd(), root, 'package.json')
   if (!existsSync(pkgPath)) {
