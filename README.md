@@ -1,7 +1,6 @@
-nxpm
-====
+# nxpm
 
-Nx PM CLI
+nxpm cli
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/nxpm.svg)](https://npmjs.org/package/nxpm)
@@ -10,10 +9,13 @@ Nx PM CLI
 [![License](https://img.shields.io/npm/l/nxpm.svg)](https://github.com/nxpm/nxpm/blob/master/package.json)
 
 <!-- toc -->
+* [nxpm](#nxpm)
 * [Usage](#usage)
 * [Commands](#commands)
 <!-- tocstop -->
+
 # Usage
+
 <!-- usage -->
 ```sh-session
 $ npm install -g nxpm
@@ -27,30 +29,11 @@ USAGE
 ...
 ```
 <!-- usagestop -->
+
 # Commands
+
 <!-- commands -->
-* [`nxpm hello [FILE]`](#nxpm-hello-file)
 * [`nxpm help [COMMAND]`](#nxpm-help-command)
-
-## `nxpm hello [FILE]`
-
-describe the command here
-
-```
-USAGE
-  $ nxpm hello [FILE]
-
-OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
-
-EXAMPLE
-  $ nxpm hello
-  hello world from ./src/hello.ts!
-```
-
-_See code: [src/commands/hello.ts](https://github.com/nxpm/nxpm/blob/v0.0.0/src/commands/hello.ts)_
 
 ## `nxpm help [COMMAND]`
 
