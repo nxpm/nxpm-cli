@@ -1,7 +1,7 @@
 {
   "name": "nxpm",
   "description": "nxpm cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Bram Borggreve @beeman",
   "bin": {
     "nxpm": "./bin/run"

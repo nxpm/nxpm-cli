@@ -13,36 +13,32 @@
 [![License](https://img.shields.io/npm/l/nxpm.svg)](https://github.com/nxpm/nxpm/blob/master/package.json)
 
 <!-- toc -->
-
-- [nxpm](#nxpm)
-- [Usage](#usage)
-- [Commands](#commands)
+* [nxpm](#nxpm)
+* [Usage](#usage)
+* [Commands](#commands)
 <!-- tocstop -->
 
 # Usage
 
 <!-- usage -->
-
 ```sh-session
 $ npm install -g nxpm
 $ nxpm COMMAND
 running command...
 $ nxpm (-v|--version|version)
-nxpm/1.0.1 darwin-x64 node-v12.16.2
+nxpm/1.0.2 darwin-x64 node-v12.16.2
 $ nxpm --help [COMMAND]
 USAGE
   $ nxpm COMMAND
 ...
 ```
-
 <!-- usagestop -->
 
 # Commands
 
 <!-- commands -->
-
-- [`nxpm help [COMMAND]`](#nxpm-help-command)
-- [`nxpm release [VERSION]`](#nxpm-release-version)
+* [`nxpm help [COMMAND]`](#nxpm-help-command)
+* [`nxpm release [VERSION]`](#nxpm-release-version)
 
 ## `nxpm help [COMMAND]`
 
@@ -80,6 +76,5 @@ OPTIONS
   -i, --allow-ivy  Allow publishing Angular packages built for Ivy
 ```
 
-_See code: [src/commands/release.ts](https://github.com/nxpm/nxpm/blob/v1.0.1/src/commands/release.ts)_
-
+_See code: [src/commands/release.ts](https://github.com/nxpm/nxpm-cli/blob/v1.0.2/src/commands/release.ts)_
 <!-- commandsstop -->
