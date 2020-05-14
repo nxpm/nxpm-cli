@@ -1,6 +1,10 @@
 # nxpm
 
-CLI to make the world-class [nx workspace](https://github.com/nrwl/nx) even more amazing!
+<p align="center"><img src="https://avatars0.githubusercontent.com/u/65322676?s=400&u=4a36f7a4110a16d674cba9610dae5d5e2966ab3a&v=4"></p>
+
+<p align="center">CLI to make the world-class [nx workspace](https://github.com/nrwl/nx) even more amazing!</p>
+
+<p align="center"><a href="https://nxpm.github.io/">nxpm.github.io</a></p>
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/nxpm.svg)](https://npmjs.org/package/nxpm)
@@ -9,14 +13,16 @@ CLI to make the world-class [nx workspace](https://github.com/nrwl/nx) even more
 [![License](https://img.shields.io/npm/l/nxpm.svg)](https://github.com/nxpm/nxpm/blob/master/package.json)
 
 <!-- toc -->
-* [nxpm](#nxpm)
-* [Usage](#usage)
-* [Commands](#commands)
+
+- [nxpm](#nxpm)
+- [Usage](#usage)
+- [Commands](#commands)
 <!-- tocstop -->
 
 # Usage
 
 <!-- usage -->
+
 ```sh-session
 $ npm install -g nxpm
 $ nxpm COMMAND
@@ -28,13 +34,15 @@ USAGE
   $ nxpm COMMAND
 ...
 ```
+
 <!-- usagestop -->
 
 # Commands
 
 <!-- commands -->
-* [`nxpm help [COMMAND]`](#nxpm-help-command)
-* [`nxpm release [VERSION]`](#nxpm-release-version)
+
+- [`nxpm help [COMMAND]`](#nxpm-help-command)
+- [`nxpm release [VERSION]`](#nxpm-release-version)
 
 ## `nxpm help [COMMAND]`
 
@@ -73,4 +81,5 @@ OPTIONS
 ```
 
 _See code: [src/commands/release.ts](https://github.com/nxpm/nxpm/blob/v1.0.1/src/commands/release.ts)_
+
 <!-- commandsstop -->

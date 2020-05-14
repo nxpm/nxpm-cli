@@ -6,12 +6,11 @@
   "bin": {
     "nxpm": "./bin/run"
   },
-  "bugs": "https://github.com/nxpm/nxpm/issues",
+  "bugs": "https://github.com/nxpm/nxpm-cli/issues",
   "dependencies": {
     "@oclif/command": "^1",
     "@oclif/config": "^1",
     "@oclif/plugin-help": "^2",
-    "@types/chalk": "^2.2.0",
     "@types/fs-extra": "^8.1.0",
     "@types/tmp": "^0.2.0",
     "chalk": "^4.0.0",
@@ -49,7 +48,7 @@
     "/npm-shrinkwrap.json",
     "/oclif.manifest.json"
   ],
-  "homepage": "https://github.com/nxpm/nxpm",
+  "homepage": "https://nxpm.github.io/",
   "keywords": [
     "oclif"
   ],
@@ -62,7 +61,7 @@
       "@oclif/plugin-help"
     ]
   },
-  "repository": "nxpm/nxpm",
+  "repository": "nxpm/nxpm-cli",
   "scripts": {
     "build": "npx tsc",
     "postpack": "rm -f oclif.manifest.json",
