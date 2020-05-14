@@ -137,7 +137,7 @@ export const validatePackageJson = (
 
   // Verify that the version is set correctly
   if (!validatePackageJsonVersion(root, { pkgJson, version: RELEASE_IT_PACKAGE_VERSION })) {
-    if (fix && !dryRun) {
+    if (fix) {
       hasErrors = !updatePackageJsonVersion(root, { version: RELEASE_IT_PACKAGE_VERSION })
     } else {
       hasErrors = true
@@ -145,7 +145,7 @@ export const validatePackageJson = (
   }
 
   if (!validatePackageJsonLicense(root, { pkgJson, license: workspacePkgJson.license })) {
-    if (fix && !dryRun) {
+    if (fix) {
       hasErrors = !updatePackageJsonLicense(root, { license: workspacePkgJson.license })
     } else {
       hasErrors = true
@@ -153,7 +153,7 @@ export const validatePackageJson = (
   }
 
   if (!validatePackageJsonName(root, { pkgJson, name })) {
-    if (fix && !dryRun) {
+    if (fix) {
       hasErrors = !updatePackageJsonName(root, { name })
     } else {
       hasErrors = true
