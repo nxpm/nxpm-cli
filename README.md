@@ -28,7 +28,7 @@ $ npm install -g nxpm
 $ nxpm COMMAND
 running command...
 $ nxpm (-v|--version|version)
-nxpm/1.4.0 darwin-x64 node-v12.16.2
+nxpm/1.5.0 darwin-x64 node-v12.16.2
 $ nxpm --help [COMMAND]
 USAGE
   $ nxpm COMMAND
@@ -78,7 +78,7 @@ OPTIONS
   -h, --help     show CLI help
 ```
 
-_See code: [src/commands/plugins.ts](https://github.com/nxpm/nxpm-cli/blob/v1.4.0/src/commands/plugins.ts)_
+_See code: [src/commands/plugins.ts](https://github.com/nxpm/nxpm-cli/blob/v1.5.0/src/commands/plugins.ts)_
 
 ## `nxpm projects`
 
@@ -93,7 +93,7 @@ OPTIONS
   -h, --help     show CLI help
 ```
 
-_See code: [src/commands/projects.ts](https://github.com/nxpm/nxpm-cli/blob/v1.4.0/src/commands/projects.ts)_
+_See code: [src/commands/projects.ts](https://github.com/nxpm/nxpm-cli/blob/v1.5.0/src/commands/projects.ts)_
 
 ## `nxpm registry:disable`
 
@@ -104,7 +104,7 @@ USAGE
   $ nxpm registry:disable
 ```
 
-_See code: [src/commands/registry/disable.ts](https://github.com/nxpm/nxpm-cli/blob/v1.4.0/src/commands/registry/disable.ts)_
+_See code: [src/commands/registry/disable.ts](https://github.com/nxpm/nxpm-cli/blob/v1.5.0/src/commands/registry/disable.ts)_
 
 ## `nxpm registry:enable`
 
@@ -115,7 +115,7 @@ USAGE
   $ nxpm registry:enable
 ```
 
-_See code: [src/commands/registry/enable.ts](https://github.com/nxpm/nxpm-cli/blob/v1.4.0/src/commands/registry/enable.ts)_
+_See code: [src/commands/registry/enable.ts](https://github.com/nxpm/nxpm-cli/blob/v1.5.0/src/commands/registry/enable.ts)_
 
 ## `nxpm registry:start`
 
@@ -126,7 +126,7 @@ USAGE
   $ nxpm registry:start
 ```
 
-_See code: [src/commands/registry/start.ts](https://github.com/nxpm/nxpm-cli/blob/v1.4.0/src/commands/registry/start.ts)_
+_See code: [src/commands/registry/start.ts](https://github.com/nxpm/nxpm-cli/blob/v1.5.0/src/commands/registry/start.ts)_
 
 ## `nxpm registry:status`
 
@@ -137,7 +137,7 @@ USAGE
   $ nxpm registry:status
 ```
 
-_See code: [src/commands/registry/status.ts](https://github.com/nxpm/nxpm-cli/blob/v1.4.0/src/commands/registry/status.ts)_
+_See code: [src/commands/registry/status.ts](https://github.com/nxpm/nxpm-cli/blob/v1.5.0/src/commands/registry/status.ts)_
 
 ## `nxpm release [VERSION]`
 
@@ -158,5 +158,5 @@ OPTIONS
   -i, --allow-ivy  Allow publishing Angular packages built for Ivy
 ```
 
-_See code: [src/commands/release.ts](https://github.com/nxpm/nxpm-cli/blob/v1.4.0/src/commands/release.ts)_
+_See code: [src/commands/release.ts](https://github.com/nxpm/nxpm-cli/blob/v1.5.0/src/commands/release.ts)_
 <!-- commandsstop -->
