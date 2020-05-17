@@ -5,6 +5,7 @@ import * as inquirer from 'inquirer'
 import fetch from 'node-fetch'
 import { dirname, join } from 'path'
 import {
+  err,
   exec,
   getWorkspaceInfo,
   gray,
@@ -25,8 +26,31 @@ export interface NxPlugin {
   url: string
 }
 
-export const selectPlugin = async (plugins: any[]): Promise<{ pluginName: string } | false> => {
-  const pluginName = await selectFromList(plugins, { message: 'Plugins', addExit: true })
+export const loadPluginsSchematics = async (info: WorkspaceInfo) => {
+  const plugins = readJSONSync(NX_PLUGINS_CACHE)
+  const schematics = await readAllSchematicCollections(info.workspaceJsonPath)
+  const schematicsNames = schematics.map((s: SchematicCollection) => s.name)
+  const availablePlugins = plugins.filter((p: NxPlugin) => !schematicsNames.includes(p.name))
+  const installedPlugins = plugins.filter((p: NxPlugin) => schematicsNames.includes(p.name))
+  const availablePluginNames = availablePlugins.map((p: NxPlugin) => p.name)
+  const installedPluginNames = installedPlugins.map((p: NxPlugin) => p.name)
+  return {
+    plugins,
+    schematics,
+    schematicsNames,
+    availablePlugins,
+    availablePluginNames,
+    installedPlugins,
+    installedPluginNames,
+    pluginNames: [...availablePluginNames, ...installedPluginNames],
+  }
+}
+
+export const selectPlugin = async (
+  plugins: any[],
+  message: string,
+): Promise<{ pluginName: string } | false> => {
+  const pluginName = await selectFromList(plugins, { message, addExit: true })
   if (!pluginName) {
     return false
   }
@@ -34,31 +58,37 @@ export const selectPlugin = async (plugins: any[]): Promise<{ pluginName: string
 }
 
 export const selectPluginFlow = async (
-  available: NxPlugin[],
-  installed: NxPlugin[],
+  info: WorkspaceInfo,
+  pluginName?: string,
 ): Promise<{ selection: string; pluginName: string; plugin?: NxPlugin } | false> => {
+  const {
+    availablePluginNames,
+    installedPluginNames,
+    plugins,
+    schematics,
+  } = await loadPluginsSchematics(info)
   const options: any[] = []
-  if (available.length !== 0) {
-    options.push(
-      new inquirer.Separator('Available Plugins'),
-      ...available.map((p) => p.name).sort(),
-    )
-  }
-  if (installed.length !== 0) {
-    options.push(
-      new inquirer.Separator('Installed Plugins'),
-      ...installed.map((p) => p.name).sort(),
-    )
-  }
-  const pluginResult = await selectPlugin(options)
 
-  if (!pluginResult) {
-    return Promise.resolve(false)
-  }
-  const { pluginName } = pluginResult
+  if (!pluginName) {
+    console.clear()
+    if (availablePluginNames.length !== 0) {
+      options.push(new inquirer.Separator('Available Plugins'), ...availablePluginNames.sort())
+    }
+    if (installedPluginNames.length !== 0) {
+      options.push(new inquirer.Separator('Installed Plugins'), ...installedPluginNames.sort())
+    }
+    const pluginResult = await selectPlugin(options, 'Plugins')
 
-  const plugin = [...available, ...installed].find((p) => p.name === pluginName)
+    if (!pluginResult) {
+      return Promise.resolve(false)
+    }
+    pluginName = pluginResult.pluginName
+  }
+
+  const plugin = plugins.find((p: NxPlugin) => p.name === pluginName)
+
   if (!plugin) {
+    err(`Plugin ${pluginName} not found`)
     return Promise.resolve(false)
   }
 
@@ -67,9 +97,15 @@ export const selectPluginFlow = async (
   ${plugin.description}
   ${gray(plugin.url)}
 `)
-  const isInstalled = installed.map((p) => p.name).includes(pluginName)
+  const isInstalled = installedPluginNames.includes(pluginName)
   const availableOptions = [INSTALL_OPTION]
   const installedOptions = [REMOVE_OPTION]
+
+  if (isInstalled) {
+    const found = schematics.find((s: SchematicCollection) => s.name === pluginName)
+    const schematicNames = found?.schematics.map((s) => s.name).sort()
+    schematicNames?.forEach((name: string) => installedOptions.unshift(`${pluginName}:${name}`))
+  }
 
   const selection = await selectFromList(isInstalled ? installedOptions : availableOptions, {
     addBack: true,
@@ -88,8 +124,8 @@ export const selectPluginFlow = async (
   }
 }
 
-const loop = async (info: WorkspaceInfo, available: NxPlugin[], installed: NxPlugin[]) => {
-  const result = await selectPluginFlow(available, installed)
+const loop = async (info: WorkspaceInfo, { pluginName }: { pluginName?: string }) => {
+  const result = await selectPluginFlow(info, pluginName)
 
   if (!result) {
     return
@@ -102,7 +138,8 @@ const loop = async (info: WorkspaceInfo, available: NxPlugin[], installed: NxPlu
         : `npm install ${result.pluginName}`
     log('Installing plugin')
     exec(command, { stdio: 'ignore' })
-    log('Done')
+    console.clear()
+    await loop(info, { pluginName: result.pluginName })
   }
 
   if (result.selection === REMOVE_OPTION) {
@@ -115,14 +152,19 @@ const loop = async (info: WorkspaceInfo, available: NxPlugin[], installed: NxPlu
     log('Done')
   }
 
+  if (result.selection.startsWith(result.pluginName)) {
+    log('Running schematic', result.selection)
+    const command = `${info.cli} generate ${result.selection}`
+    exec(command)
+    log('Done')
+  }
+
   if (result.selection === BACK_OPTION) {
-    await loop(info, available, installed)
+    await loop(info, { pluginName })
   }
 }
 
 export const plugins = async (config: BaseConfig): Promise<void> => {
-  log('Plugins', gray(`Working directory ${config.cwd}`))
-
   const info = getWorkspaceInfo({ cwd: config.cwd })
 
   if (!existsSync(join(NX_PLUGINS_CACHE))) {
@@ -133,13 +175,5 @@ export const plugins = async (config: BaseConfig): Promise<void> => {
     cli.action.stop()
   }
 
-  cli.action.start('Loading plugins')
-  const plugins = readJSONSync(NX_PLUGINS_CACHE)
-  const schematics = await readAllSchematicCollections(info.workspaceJsonPath)
-  const schematicsNames = schematics.map((s: SchematicCollection) => s.name)
-  const availablePlugins = plugins.filter((p: NxPlugin) => !schematicsNames.includes(p.name))
-  const installedPlugins = plugins.filter((p: NxPlugin) => schematicsNames.includes(p.name))
-  cli.action.stop()
-
-  await loop(info, availablePlugins, installedPlugins)
+  await loop(info, {})
 }
