@@ -5,7 +5,7 @@ import * as inquirer from 'inquirer'
 import fetch from 'node-fetch'
 import { dirname, join } from 'path'
 import {
-  err,
+  error,
   exec,
   getWorkspaceInfo,
   gray,
@@ -88,7 +88,7 @@ export const selectPluginFlow = async (
   const plugin = plugins.find((p: NxPlugin) => p.name === pluginName)
 
   if (!plugin) {
-    err(`Plugin ${pluginName} not found`)
+    error(`Plugin ${pluginName} not found`)
     return Promise.resolve(false)
   }
 

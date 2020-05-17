@@ -15,9 +15,17 @@ export default class Projects extends Command {
     help: flags.help({ char: 'h' }),
   }
 
-  async run() {
-    const { flags } = this.parse(Projects)
+  static args = [
+    {
+      name: 'projectName',
+      description: 'The name of the project you want to operate on',
+      required: false,
+    },
+  ]
 
-    await projects({ cwd: flags.cwd, dryRun: false })
+  async run() {
+    const { args, flags } = this.parse(Projects)
+
+    await projects({ cwd: flags.cwd, dryRun: false }, args.projectName)
   }
 }

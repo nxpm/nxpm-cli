@@ -1,7 +1,15 @@
 import { readJSONSync } from 'fs-extra'
 import * as inquirer from 'inquirer'
 import { join } from 'path'
-import { err, exec, getWorkspaceInfo, gray, log, selectFromList, WorkspaceInfo } from '../../utils'
+import {
+  error,
+  exec,
+  getWorkspaceInfo,
+  gray,
+  log,
+  selectFromList,
+  WorkspaceInfo,
+} from '../../utils'
 import { BaseConfig } from '../release/interfaces/release-config'
 
 export const BACK_OPTION = '[ BACK ]'
@@ -72,17 +80,15 @@ export const getSchematicParams = (cwd: string, param: string): Promise<any | fa
     // console.log('properties', schemaProperties)
     return Promise.resolve({ properties })
   } catch (error) {
-    err(error)
+    error(error)
     return Promise.reject(error)
   }
 }
 
-const selectProject = async (
-  info: WorkspaceInfo,
-): Promise<{ projectName: string; projectType: string; project: any } | false> => {
+const selectProjectName = async (info: WorkspaceInfo): Promise<string | false> => {
   const items: any = info.workspace?.projects || []
   if (Object.keys(items).length === 0) {
-    err("Can't find any projects in this workspace")
+    error("Can't find any projects in this workspace")
     return Promise.resolve(false)
   }
 
@@ -114,8 +120,8 @@ const selectProject = async (
   if (projectName === false) {
     return Promise.resolve(false)
   }
-  const project = info?.workspace?.projects[projectName]
-  return { projectType: project.projectType, projectName, project }
+
+  return projectName
 }
 
 const selectProjectAction = async (
@@ -162,14 +168,32 @@ const selectProjectAction = async (
   return Promise.resolve(false)
 }
 
-export const interactive = async (info: WorkspaceInfo) => {
-  const projectResult = await selectProject(info)
+export const interactive = async (
+  info: WorkspaceInfo,
+  { projectName }: { projectName?: string },
+) => {
+  if (!projectName) {
+    const res = await selectProjectName(info)
+    if (res) {
+      projectName = res
+    }
+  }
 
-  if (projectResult === false) {
+  if (typeof projectName === 'undefined') {
     return
   }
 
-  const projectActionResult = await selectProjectAction(info, projectResult)
+  const project = info?.workspace?.projects[projectName]
+
+  if (!project) {
+    error(`Project ${projectName} not found`)
+    return
+  }
+
+  const projectActionResult = await selectProjectAction(info, {
+    projectName,
+    project,
+  })
 
   if (projectActionResult === false) {
     return
@@ -178,13 +202,13 @@ export const interactive = async (info: WorkspaceInfo) => {
     exec(projectActionResult.payload)
     exec(`yarn format`, { stdio: 'ignore' })
   } else {
-    err(`Unknown action ${projectActionResult.action}`)
+    error(`Unknown action ${projectActionResult.action}`)
   }
 }
 
-export const projects = async (config: BaseConfig): Promise<void> => {
+export const projects = async (config: BaseConfig, projectName?: string): Promise<void> => {
   log('Projects', gray(`Working directory ${config.cwd}`))
   const info = getWorkspaceInfo({ cwd: config.cwd })
 
-  await interactive(info)
+  await interactive(info, { projectName })
 }

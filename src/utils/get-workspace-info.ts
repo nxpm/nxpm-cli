@@ -53,7 +53,7 @@ export function getWorkspaceInfo({ cwd }: WorkspaceParams): WorkspaceInfo {
     cli,
     cwd,
     package: readJSONSync(packageJsonPath),
-    nx: readJSONSync(nxJsonPath),
+    nx: existsSync(nxJsonPath) ? readJSONSync(nxJsonPath) : {},
     path: workspacePath,
     type,
     workspace: readJSONSync(workspacePath),
