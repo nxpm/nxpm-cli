@@ -1,9 +1,11 @@
 import { execSync, ExecSyncOptions } from 'child_process'
 import { existsSync } from 'fs'
 import { readJSONSync, writeFileSync } from 'fs-extra'
+import * as inquirer from 'inquirer'
 import { dirname, join, relative } from 'path'
 
 import * as releaseIt from 'release-it'
+import { BACK_OPTION, EXIT_OPTION } from '../lib/projects/projects'
 
 import { RELEASE_IT_PACKAGE_VERSION } from './constants'
 import { error, gray, greenBright, log, red, yellowBright } from './logging'
@@ -253,4 +255,38 @@ export const runReleaseIt = ({
       error(err.message)
       return false
     })
+}
+export const selectFromList = async (
+  choices: any[],
+  {
+    addBack = false,
+    addExit = false,
+    message,
+  }: { addBack?: boolean; addExit?: boolean; message?: string },
+): Promise<string | false> => {
+  const options = [...choices]
+  const extraOptions: string[] = []
+
+  if (addBack) {
+    extraOptions.push(BACK_OPTION)
+  }
+
+  if (addExit) {
+    extraOptions.push(EXIT_OPTION)
+  }
+  const response = await inquirer.prompt([
+    {
+      name: 'select',
+      type: 'list',
+      message,
+      choices:
+        extraOptions.length === 0
+          ? [...options]
+          : [...options, new inquirer.Separator(), ...extraOptions, new inquirer.Separator()],
+    },
+  ])
+  if (response.select === EXIT_OPTION) {
+    return false
+  }
+  return response.select
 }

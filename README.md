@@ -40,6 +40,7 @@ USAGE
 
 <!-- commands -->
 * [`nxpm help [COMMAND]`](#nxpm-help-command)
+* [`nxpm plugins`](#nxpm-plugins)
 * [`nxpm projects`](#nxpm-projects)
 * [`nxpm registry:disable`](#nxpm-registrydisable)
 * [`nxpm registry:enable`](#nxpm-registryenable)
@@ -63,6 +64,21 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.2.3/src/commands/help.ts)_
+
+## `nxpm plugins`
+
+describe the command here
+
+```
+USAGE
+  $ nxpm plugins
+
+OPTIONS
+  -c, --cwd=cwd  [default: /Users/beeman/nxpm-cli] Current working directory
+  -h, --help     show CLI help
+```
+
+_See code: [src/commands/plugins.ts](https://github.com/nxpm/nxpm-cli/blob/v1.2.0/src/commands/plugins.ts)_
 
 ## `nxpm projects`
 

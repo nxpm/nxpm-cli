@@ -1,6 +1,7 @@
 import * as chalk from 'chalk'
 
 export const {
+  whiteBright,
   greenBright,
   bold,
   inverse,

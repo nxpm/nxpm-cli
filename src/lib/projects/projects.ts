@@ -1,9 +1,10 @@
 import { readJSONSync } from 'fs-extra'
 import * as inquirer from 'inquirer'
 import { join } from 'path'
-import { err, exec, getWorkspaceInfo, gray, log, WorkspaceInfo } from '../../utils'
+import { err, exec, getWorkspaceInfo, gray, log, selectFromList, WorkspaceInfo } from '../../utils'
 import { BaseConfig } from '../release/interfaces/release-config'
 
+export const BACK_OPTION = '[ BACK ]'
 export const EXIT_OPTION = '[ EXIT ]'
 export const setType = (type: string) => {
   switch (type) {
@@ -71,25 +72,6 @@ export const getSchematicParams = (cwd: string, param: string): Promise<any | fa
     err(error)
     return Promise.reject(error)
   }
-}
-export const selectFromList = async (
-  choices: any[],
-  { addExit = false, message }: { addExit: boolean; message?: string },
-): Promise<string | false> => {
-  const response = await inquirer.prompt([
-    {
-      name: 'select',
-      type: 'list',
-      message,
-      choices: addExit
-        ? [...choices, new inquirer.Separator(), EXIT_OPTION, new inquirer.Separator()]
-        : [...choices],
-    },
-  ])
-  if (response.select === EXIT_OPTION) {
-    return false
-  }
-  return response.select
 }
 
 const selectProject = async (

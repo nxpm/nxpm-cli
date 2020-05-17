@@ -12,11 +12,13 @@
     "@oclif/config": "^1",
     "@oclif/plugin-help": "^2",
     "@types/fs-extra": "^8.1.0",
+    "@types/node-fetch": "^2.5.7",
     "@types/tmp": "^0.2.0",
     "chalk": "^4.0.0",
     "cli-ux": "^5.4.5",
     "fs-extra": "^9.0.0",
     "inquirer": "^7.1.0",
+    "node-fetch": "^2.6.0",
     "release-it": "^13.5.8",
     "tslib": "^1"
   },
