@@ -3,6 +3,8 @@ import { readJSONSync } from 'fs-extra'
 import { join } from 'path'
 
 export interface WorkspaceInfo {
+  cli: 'nx' | 'ng'
+  cwd: string
   package: { [key: string]: any }
   nx: { [key: string]: any }
   type: 'nx' | 'angular'
@@ -27,13 +29,16 @@ export function getWorkspaceInfo({ cwd }: WorkspaceParams): WorkspaceInfo {
     throw new Error(`Can't find angular.json or workspace.json in ${cwd}`)
   }
 
-  const type = workspaceJsonPath ? 'nx' : 'angular'
+  const type = workspaceJsonExists ? 'nx' : 'angular'
+  const cli = workspaceJsonExists ? 'nx' : 'ng'
   const workspacePath = workspaceJsonExists ? workspaceJsonPath : angularJsonPath
   if (!existsSync(nxJsonPath)) {
     throw new Error(`Can't find nx.json in ${nxJsonPath}`)
   }
 
   return {
+    cli,
+    cwd,
     package: readJSONSync(packageJsonPath),
     nx: readJSONSync(nxJsonPath),
     path: workspacePath,

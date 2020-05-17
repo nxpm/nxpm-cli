@@ -38,6 +38,7 @@ USAGE
 
 <!-- commands -->
 * [`nxpm help [COMMAND]`](#nxpm-help-command)
+* [`nxpm projects`](#nxpm-projects)
 * [`nxpm registry:disable`](#nxpm-registrydisable)
 * [`nxpm registry:enable`](#nxpm-registryenable)
 * [`nxpm registry:start`](#nxpm-registrystart)
@@ -61,6 +62,21 @@ OPTIONS
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.2.3/src/commands/help.ts)_
 
+## `nxpm projects`
+
+describe the command here
+
+```
+USAGE
+  $ nxpm projects
+
+OPTIONS
+  -c, --cwd=cwd  [default: /Users/beeman/nxpm-cli] Current working directory
+  -h, --help     show CLI help
+```
+
+_See code: [src/commands/projects.ts](https://github.com/nxpm/nxpm-cli/blob/v1.1.0/src/commands/projects.ts)_
+
 ## `nxpm registry:disable`
 
 Disable yarn and npm from using local npm registry
@@ -74,7 +90,7 @@ _See code: [src/commands/registry/disable.ts](https://github.com/nxpm/nxpm-cli/b
 
 ## `nxpm registry:enable`
 
-Configure yarn and npm to use local npm registry
+Configure yarn and npm to use the local registry
 
 ```
 USAGE
