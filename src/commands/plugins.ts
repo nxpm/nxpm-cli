@@ -2,7 +2,9 @@ import { Command, flags } from '@oclif/command'
 import { plugins } from '../lib/plugins/plugins'
 
 export default class Plugins extends Command {
-  static description = 'describe the command here'
+  static aliases = ['pl']
+
+  static description = 'Install and remove community plugins'
 
   static flags = {
     cwd: flags.string({

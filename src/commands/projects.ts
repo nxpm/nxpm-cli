@@ -2,6 +2,8 @@ import { Command, flags } from '@oclif/command'
 import { projects } from '../lib/projects/projects'
 
 export default class Projects extends Command {
+  static aliases = ['p']
+
   static description = 'Interactive menu to run builders and schematics for projects'
 
   static flags = {
