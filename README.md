@@ -13,14 +13,18 @@
 [![License](https://img.shields.io/npm/l/nxpm.svg)](https://github.com/nxpm/nxpm/blob/master/package.json)
 
 <!-- toc -->
-* [nxpm](#nxpm)
-* [Usage](#usage)
-* [Commands](#commands)
+
+- [nxpm](#nxpm)
+- [Usage](#usage)
+- [Commands](#commands)
 <!-- tocstop -->
+
+<p align="center"><img src="nxpm-projects.gif"></p>
 
 # Usage
 
 <!-- usage -->
+
 ```sh-session
 $ npm install -g nxpm
 $ nxpm COMMAND
@@ -32,18 +36,20 @@ USAGE
   $ nxpm COMMAND
 ...
 ```
+
 <!-- usagestop -->
 
 # Commands
 
 <!-- commands -->
-* [`nxpm help [COMMAND]`](#nxpm-help-command)
-* [`nxpm projects`](#nxpm-projects)
-* [`nxpm registry:disable`](#nxpm-registrydisable)
-* [`nxpm registry:enable`](#nxpm-registryenable)
-* [`nxpm registry:start`](#nxpm-registrystart)
-* [`nxpm registry:status`](#nxpm-registrystatus)
-* [`nxpm release [VERSION]`](#nxpm-release-version)
+
+- [`nxpm help [COMMAND]`](#nxpm-help-command)
+- [`nxpm projects`](#nxpm-projects)
+- [`nxpm registry:disable`](#nxpm-registrydisable)
+- [`nxpm registry:enable`](#nxpm-registryenable)
+- [`nxpm registry:start`](#nxpm-registrystart)
+- [`nxpm registry:status`](#nxpm-registrystatus)
+- [`nxpm release [VERSION]`](#nxpm-release-version)
 
 ## `nxpm help [COMMAND]`
 
@@ -141,4 +147,5 @@ OPTIONS
 ```
 
 _See code: [src/commands/release.ts](https://github.com/nxpm/nxpm-cli/blob/v1.1.0/src/commands/release.ts)_
+
 <!-- commandsstop -->

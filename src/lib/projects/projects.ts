@@ -94,15 +94,34 @@ export const selectFromList = async (
 
 const selectProject = async (
   info: WorkspaceInfo,
-): Promise<{ projectName: string; project: any } | false> => {
-  const items: any[] = info.workspace?.projects || []
+): Promise<{ projectName: string; projectType: string; project: any } | false> => {
+  const items: any = info.workspace?.projects || []
   if (Object.keys(items).length === 0) {
     err("Can't find any projects in this workspace")
     return Promise.resolve(false)
   }
 
-  const projectList = Object.keys(items).sort()
-  const projectName = await selectFromList(projectList, {
+  const projectList = Object.keys(items).map((item: string) => ({
+    projectName: item,
+    type: items[item].projectType,
+  }))
+  const apps: string[] = projectList
+    .filter((t: any) => t.type === 'application')
+    .map((t: any) => t.projectName)
+    .sort()
+  const libs: string[] = projectList
+    .filter((t: any) => t.type === 'library')
+    .map((t: any) => t.projectName)
+    .sort()
+
+  const options = []
+  if (apps.length !== 0) {
+    options.push(new inquirer.Separator('Apps'), ...apps)
+  }
+  if (libs.length !== 0) {
+    options.push(new inquirer.Separator('Libraries:'), ...libs)
+  }
+  const projectName = await selectFromList(options, {
     addExit: true,
     message: `Select project (${projectList.length} found)`,
   })
@@ -110,8 +129,8 @@ const selectProject = async (
   if (projectName === false) {
     return Promise.resolve(false)
   }
-
-  return { projectName, project: info?.workspace?.projects[projectName] }
+  const project = info?.workspace?.projects[projectName]
+  return { projectType: project.projectType, projectName, project }
 }
 
 const selectProjectAction = async (
@@ -129,7 +148,7 @@ const selectProjectAction = async (
   ]
   const response = await selectFromList(projectOptions, {
     addExit: true,
-    message: `Selected project ${projectName} ${gray(project.root)}`,
+    message: `Selected ${project.projectType} ${projectName} ${gray(project.root)}`,
   })
 
   if (response === false) {
@@ -172,6 +191,7 @@ export const interactive = async (info: WorkspaceInfo) => {
   }
   if (projectActionResult.action === 'exec') {
     exec(projectActionResult.payload)
+    exec(`yarn format`, { stdio: 'ignore' })
   } else {
     err(`Unknown action ${projectActionResult.action}`)
   }
