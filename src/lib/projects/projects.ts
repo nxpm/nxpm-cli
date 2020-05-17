@@ -6,6 +6,9 @@ import { BaseConfig } from '../release/interfaces/release-config'
 
 export const BACK_OPTION = '[ BACK ]'
 export const EXIT_OPTION = '[ EXIT ]'
+export const INSTALL_OPTION = '[ INSTALL ]'
+export const REMOVE_OPTION = '[ REMOVE ]'
+
 export const setType = (type: string) => {
   switch (type) {
     case 'boolean':
@@ -63,7 +66,7 @@ export const getSchematicParams = (cwd: string, param: string): Promise<any | fa
         name: 'dryRun',
         type: 'confirm',
         message: 'Do you want to do a dry-run?',
-        default: true,
+        default: false,
       },
     ]
     // console.log('properties', schemaProperties)

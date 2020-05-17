@@ -13,10 +13,10 @@ import {
   NX_PLUGINS_URL,
   selectFromList,
   WorkspaceInfo,
-  yellowBright,
-  whiteBright,
 } from '../../utils'
-import { BACK_OPTION } from '../projects/projects'
+import { readAllSchematicCollections } from '../../utils/vendor/nx-console/read-schematic-collections'
+import { SchematicCollection } from '../../utils/vendor/nx-console/schema'
+import { BACK_OPTION, INSTALL_OPTION, REMOVE_OPTION } from '../projects/projects'
 import { BaseConfig } from '../release/interfaces/release-config'
 
 export interface NxPlugin {
@@ -25,27 +25,39 @@ export interface NxPlugin {
   url: string
 }
 
-export const selectPlugin = async (
-  plugins: NxPlugin[],
-): Promise<{ pluginName: string; plugin?: NxPlugin } | false> => {
-  const options = plugins.map((plugin: NxPlugin) => plugin.name)
-  const pluginName = await selectFromList(options, { message: 'Available plugins', addExit: true })
+export const selectPlugin = async (plugins: any[]): Promise<{ pluginName: string } | false> => {
+  const pluginName = await selectFromList(plugins, { message: 'Plugins', addExit: true })
   if (!pluginName) {
     return false
   }
-  return { pluginName, plugin: plugins.find((plugin: NxPlugin) => plugin.name === pluginName) }
+  return { pluginName }
 }
 
 export const selectPluginFlow = async (
-  plugins: NxPlugin[],
+  available: NxPlugin[],
+  installed: NxPlugin[],
 ): Promise<{ selection: string; pluginName: string; plugin?: NxPlugin } | false> => {
-  const pluginResult = await selectPlugin(plugins)
+  const options: any[] = []
+  if (available.length !== 0) {
+    options.push(
+      new inquirer.Separator('Available Plugins'),
+      ...available.map((p) => p.name).sort(),
+    )
+  }
+  if (installed.length !== 0) {
+    options.push(
+      new inquirer.Separator('Installed Plugins'),
+      ...installed.map((p) => p.name).sort(),
+    )
+  }
+  const pluginResult = await selectPlugin(options)
 
   if (!pluginResult) {
     return Promise.resolve(false)
   }
-  const { plugin, pluginName } = pluginResult
+  const { pluginName } = pluginResult
 
+  const plugin = [...available, ...installed].find((p) => p.name === pluginName)
   if (!plugin) {
     return Promise.resolve(false)
   }
@@ -55,8 +67,11 @@ export const selectPluginFlow = async (
   ${plugin.description}
   ${gray(plugin.url)}
 `)
+  const isInstalled = installed.map((p) => p.name).includes(pluginName)
+  const availableOptions = [INSTALL_OPTION]
+  const installedOptions = [REMOVE_OPTION]
 
-  const selection = await selectFromList(['Install'], {
+  const selection = await selectFromList(isInstalled ? installedOptions : availableOptions, {
     addBack: true,
     addExit: true,
     message: pluginName,
@@ -73,22 +88,35 @@ export const selectPluginFlow = async (
   }
 }
 
-const loop = async (info: WorkspaceInfo, plugins: NxPlugin[]) => {
-  const result = await selectPluginFlow(plugins)
+const loop = async (info: WorkspaceInfo, available: NxPlugin[], installed: NxPlugin[]) => {
+  const result = await selectPluginFlow(available, installed)
 
   if (!result) {
     return
   }
 
-  if (result.selection === 'Install') {
+  if (result.selection === INSTALL_OPTION) {
     const command =
       info.packageManager === 'yarn'
         ? `yarn add ${result.pluginName}`
         : `npm install ${result.pluginName}`
-    exec(command)
+    log('Installing plugin')
+    exec(command, { stdio: 'ignore' })
+    log('Done')
   }
+
+  if (result.selection === REMOVE_OPTION) {
+    const command =
+      info.packageManager === 'yarn'
+        ? `yarn remove ${result.pluginName}`
+        : `npm uninstall ${result.pluginName}`
+    log('Removing plugin')
+    exec(command, { stdio: 'ignore' })
+    log('Done')
+  }
+
   if (result.selection === BACK_OPTION) {
-    await loop(info, plugins)
+    await loop(info, available, installed)
   }
 }
 
@@ -105,7 +133,13 @@ export const plugins = async (config: BaseConfig): Promise<void> => {
     cli.action.stop()
   }
 
+  cli.action.start('Loading plugins')
   const plugins = readJSONSync(NX_PLUGINS_CACHE)
+  const schematics = await readAllSchematicCollections(info.workspaceJsonPath)
+  const schematicsNames = schematics.map((s: SchematicCollection) => s.name)
+  const availablePlugins = plugins.filter((p: NxPlugin) => !schematicsNames.includes(p.name))
+  const installedPlugins = plugins.filter((p: NxPlugin) => schematicsNames.includes(p.name))
+  cli.action.stop()
 
-  await loop(info, plugins)
+  await loop(info, availablePlugins, installedPlugins)
 }

@@ -12,6 +12,7 @@ export interface WorkspaceInfo {
   packageManager: 'npm' | 'yarn'
   path: string
   workspace: { [key: string]: any }
+  workspaceJsonPath: string
 }
 
 export interface WorkspaceParams {
@@ -56,6 +57,7 @@ export function getWorkspaceInfo({ cwd }: WorkspaceParams): WorkspaceInfo {
     path: workspacePath,
     type,
     workspace: readJSONSync(workspacePath),
+    workspaceJsonPath: workspacePath,
     packageManager,
   }
 }
