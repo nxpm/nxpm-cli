@@ -34,7 +34,7 @@ $ npm install -g nxpm
 $ nxpm COMMAND
 running command...
 $ nxpm (-v|--version|version)
-nxpm/1.7.2 darwin-x64 node-v12.16.2
+nxpm/1.7.3 darwin-x64 node-v12.16.2
 $ nxpm --help [COMMAND]
 USAGE
   $ nxpm COMMAND
@@ -69,7 +69,7 @@ OPTIONS
   --all  see all commands in CLI
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.2.3/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.0.1/src/commands/help.ts)_
 
 ## `nxpm plugins`
 
@@ -87,7 +87,7 @@ ALIASES
   $ nxpm pl
 ```
 
-_See code: [src/commands/plugins.ts](https://github.com/nxpm/nxpm-cli/blob/v1.7.2/src/commands/plugins.ts)_
+_See code: [src/commands/plugins.ts](https://github.com/nxpm/nxpm-cli/blob/v1.7.3/src/commands/plugins.ts)_
 
 ## `nxpm projects [PROJECTNAME]`
 
@@ -108,7 +108,7 @@ ALIASES
   $ nxpm p
 ```
 
-_See code: [src/commands/projects.ts](https://github.com/nxpm/nxpm-cli/blob/v1.7.2/src/commands/projects.ts)_
+_See code: [src/commands/projects.ts](https://github.com/nxpm/nxpm-cli/blob/v1.7.3/src/commands/projects.ts)_
 
 ## `nxpm registry:disable`
 
@@ -119,7 +119,7 @@ USAGE
   $ nxpm registry:disable
 ```
 
-_See code: [src/commands/registry/disable.ts](https://github.com/nxpm/nxpm-cli/blob/v1.7.2/src/commands/registry/disable.ts)_
+_See code: [src/commands/registry/disable.ts](https://github.com/nxpm/nxpm-cli/blob/v1.7.3/src/commands/registry/disable.ts)_
 
 ## `nxpm registry:enable`
 
@@ -130,7 +130,7 @@ USAGE
   $ nxpm registry:enable
 ```
 
-_See code: [src/commands/registry/enable.ts](https://github.com/nxpm/nxpm-cli/blob/v1.7.2/src/commands/registry/enable.ts)_
+_See code: [src/commands/registry/enable.ts](https://github.com/nxpm/nxpm-cli/blob/v1.7.3/src/commands/registry/enable.ts)_
 
 ## `nxpm registry:start`
 
@@ -141,7 +141,7 @@ USAGE
   $ nxpm registry:start
 ```
 
-_See code: [src/commands/registry/start.ts](https://github.com/nxpm/nxpm-cli/blob/v1.7.2/src/commands/registry/start.ts)_
+_See code: [src/commands/registry/start.ts](https://github.com/nxpm/nxpm-cli/blob/v1.7.3/src/commands/registry/start.ts)_
 
 ## `nxpm registry:status`
 
@@ -152,7 +152,7 @@ USAGE
   $ nxpm registry:status
 ```
 
-_See code: [src/commands/registry/status.ts](https://github.com/nxpm/nxpm-cli/blob/v1.7.2/src/commands/registry/status.ts)_
+_See code: [src/commands/registry/status.ts](https://github.com/nxpm/nxpm-cli/blob/v1.7.3/src/commands/registry/status.ts)_
 
 ## `nxpm release [VERSION]`
 
@@ -174,5 +174,5 @@ OPTIONS
   --ci             CI mode (fully automatic release)
 ```
 
-_See code: [src/commands/release.ts](https://github.com/nxpm/nxpm-cli/blob/v1.7.2/src/commands/release.ts)_
+_See code: [src/commands/release.ts](https://github.com/nxpm/nxpm-cli/blob/v1.7.3/src/commands/release.ts)_
 <!-- commandsstop -->
