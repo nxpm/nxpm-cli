@@ -2,7 +2,7 @@
 
 <p align="center"><img src="https://avatars0.githubusercontent.com/u/65322676?s=400&u=4a36f7a4110a16d674cba9610dae5d5e2966ab3a&v=4"></p>
 
-<p align="center">CLI to make the world-class [nx workspace](https://github.com/nrwl/nx) even more amazing!</p>
+<p align="center">CLI to make the world-class <a href="https://github.com/nrwl/nx">nx workspace</a> even more amazing!</p>
 
 <p align="center"><a href="https://nxpm.dev/">nxpm.dev</a></p>
 
@@ -13,16 +13,24 @@
 [![License](https://img.shields.io/npm/l/nxpm.svg)](https://github.com/nxpm/nxpm/blob/master/package.json)
 
 <!-- toc -->
-* [nxpm](#nxpm)
-* [Usage](#usage)
-* [Commands](#commands)
+
+- [nxpm](#nxpm)
+- [Usage](#usage)
+- [Commands](#commands)
 <!-- tocstop -->
+
+### nxpm plugins
+
+<p align="center"><img src="nxpm-plugins.gif"></p>
+
+### nxpm projects
 
 <p align="center"><img src="nxpm-projects.gif"></p>
 
 # Usage
 
 <!-- usage -->
+
 ```sh-session
 $ npm install -g nxpm
 $ nxpm COMMAND
@@ -34,19 +42,21 @@ USAGE
   $ nxpm COMMAND
 ...
 ```
+
 <!-- usagestop -->
 
 # Commands
 
 <!-- commands -->
-* [`nxpm help [COMMAND]`](#nxpm-help-command)
-* [`nxpm plugins`](#nxpm-plugins)
-* [`nxpm projects [PROJECTNAME]`](#nxpm-projects-projectname)
-* [`nxpm registry:disable`](#nxpm-registrydisable)
-* [`nxpm registry:enable`](#nxpm-registryenable)
-* [`nxpm registry:start`](#nxpm-registrystart)
-* [`nxpm registry:status`](#nxpm-registrystatus)
-* [`nxpm release [VERSION]`](#nxpm-release-version)
+
+- [`nxpm help [COMMAND]`](#nxpm-help-command)
+- [`nxpm plugins`](#nxpm-plugins)
+- [`nxpm projects [PROJECTNAME]`](#nxpm-projects-projectname)
+- [`nxpm registry:disable`](#nxpm-registrydisable)
+- [`nxpm registry:enable`](#nxpm-registryenable)
+- [`nxpm registry:start`](#nxpm-registrystart)
+- [`nxpm registry:status`](#nxpm-registrystatus)
+- [`nxpm release [VERSION]`](#nxpm-release-version)
 
 ## `nxpm help [COMMAND]`
 
@@ -165,7 +175,9 @@ OPTIONS
   -f, --fix        Automatically fix known issues
   -h, --help       show CLI help
   -i, --allow-ivy  Allow publishing Angular packages built for Ivy
+  --ci             CI mode (fully automatic release)
 ```
 
 _See code: [src/commands/release.ts](https://github.com/nxpm/nxpm-cli/blob/v1.6.0/src/commands/release.ts)_
+
 <!-- commandsstop -->

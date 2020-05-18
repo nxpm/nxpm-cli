@@ -4,6 +4,7 @@ export interface BaseConfig {
 }
 
 export interface ReleaseConfig extends BaseConfig {
+  ci: boolean
   dryRun: boolean
   allowIvy: boolean
   fix: boolean

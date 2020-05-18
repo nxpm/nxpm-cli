@@ -7,6 +7,10 @@ export default class Release extends Command {
   static description = 'Release publishable packages in an Nx Workspace'
 
   static flags = {
+    ci: flags.boolean({
+      description: 'CI mode (fully automatic release)',
+      default: false,
+    }),
     cwd: flags.string({
       char: 'c',
       description: 'Current working directory',
@@ -52,6 +56,7 @@ export default class Release extends Command {
 
     await release({
       allowIvy: flags['allow-ivy'],
+      ci: flags.ci,
       cwd: flags.cwd,
       dryRun: flags['dry-run'],
       fix: flags.fix,

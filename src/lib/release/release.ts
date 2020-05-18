@@ -34,6 +34,7 @@ export const release = async (_config: ReleaseConfig): Promise<void> => {
     pkgFiles: [join(config.cwd, 'package.json'), ...packages.pkgFiles],
     preRelease: config.preRelease,
     version: config.version,
+    ci: config.ci,
   })
 
   if (!releaseResult) {

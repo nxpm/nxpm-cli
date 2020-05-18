@@ -206,17 +206,20 @@ export const runNpmPublish = ({ dryRun, pkgFiles, version, tag }: NpmPublishOpti
 }
 
 export interface ReleaseItOptions {
+  ci: boolean
   dryRun: boolean
   pkgFiles: string[]
   preRelease: boolean
   version: string
 }
 export const runReleaseIt = ({
+  ci = false,
   dryRun = false,
   preRelease,
   version,
 }: ReleaseItOptions): Promise<boolean> => {
   const options = {
+    ci,
     'dry-run': dryRun,
     changelogCommand: 'conventional-changelog -p angular | tail -n +3',
     /**
