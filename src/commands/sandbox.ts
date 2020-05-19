@@ -17,6 +17,18 @@ export default class Sandbox extends BaseCommand {
       description: 'Refresh the list of plugins',
       default: false,
     }),
+    'port-api': flags.string({
+      description: 'Port to open for the API app',
+      default: '3000',
+    }),
+    'port-web': flags.string({
+      description: 'Port to open for the Web app',
+      default: '4200',
+    }),
+    ports: flags.string({
+      description: 'Comma-separated list of additional ports to open (eg: 8080, 10080:80)',
+      default: '',
+    }),
   }
 
   static args = [
@@ -39,6 +51,9 @@ export default class Sandbox extends BaseCommand {
       action: args.action,
       cwd: flags.cwd,
       refresh: flags.refresh,
+      portApi: flags['port-api'],
+      portWeb: flags['port-web'],
+      ports: flags.ports,
       sandboxId: args.sandboxId,
       userConfig: this.userConfig,
     })

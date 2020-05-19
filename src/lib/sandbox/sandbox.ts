@@ -42,7 +42,7 @@ export const selectSandboxFlow = async (
 ): Promise<{ selection: string; sandboxName: string; sandbox?: Sandbox } | false> => {
   const [sandboxes, images] = await Promise.all([getSandboxUrlCache(), getDockerImages()])
   if (config.sandboxId) {
-    sandboxName = sandboxes.find((sandbox) => sandbox.id === config.sandboxId).name
+    sandboxName = sandboxes.find((sandbox) => sandbox.id === config.sandboxId)?.name
   }
   const availableSandboxes: any[] = sandboxes
     .map((s) => s.name)
@@ -145,12 +145,22 @@ const loop = async (
   if (result.selection === RUN_OPTION && result.sandbox) {
     log('RUN', `${result.sandbox.id} ${gray(result.sandboxName)}`)
     try {
+      const ports: string[] = []
+      if (config.portApi) {
+        ports.push(config.portApi)
+      }
+      if (config.portWeb) {
+        ports.push(config.portWeb)
+      }
+      if (config.ports) {
+        ports.push(...(config.ports.includes(',') ? config.ports.split(',') : [config.ports]))
+      }
       await runDockerImage(result.sandboxName, {
         options: {
           hostname: result.sandbox.id,
           name: result.sandbox.id,
           params: [],
-          ports: ['13000:3000', '14200:4200'],
+          ports,
         },
       })
     } catch (e) {
