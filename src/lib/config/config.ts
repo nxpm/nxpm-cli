@@ -1,24 +1,45 @@
 import { IConfig } from '@oclif/config'
+import { unlink } from 'fs-extra'
 import { get, has, set } from 'lodash'
-import { error, log, warning } from '../../utils'
+import { error, exec, log, warning } from '../../utils'
 import { UserConfig } from '../../utils/user-config'
-import { getConfigFile, updateConfigFile } from './utils/config-utils'
+import { getConfigFile, getConfigFilePath, updateConfigFile } from './utils/config-utils'
 
-export interface GetConfigParamOptions {
+export interface EditConfigParamOptions {
   config: IConfig
   global: boolean
-  key: string
   userConfig: UserConfig
+}
+
+export interface GetConfigParamOptions extends EditConfigParamOptions {
+  key: string
 }
 export interface SetConfigParamOptions extends GetConfigParamOptions {
   value: string
 }
 
-function validateOptions(options: GetConfigParamOptions | SetConfigParamOptions) {
+function validateOptions(
+  options: EditConfigParamOptions | GetConfigParamOptions | SetConfigParamOptions,
+) {
   if (!options.global) {
     error(`The cli currently only supports global variables.`)
     process.exit(1)
   }
+}
+
+export async function deleteConfig(options: EditConfigParamOptions) {
+  validateOptions(options)
+  const configFile = await getConfigFilePath(options.config)
+  await unlink(configFile)
+  log('DELETE', `Deleted ${configFile}`)
+}
+
+export async function editConfig(options: EditConfigParamOptions) {
+  validateOptions(options)
+  const configFile = await getConfigFilePath(options.config)
+  const editor = process.env.EDITOR || 'vim'
+  const command = `${editor} ${configFile}`
+  exec(command)
 }
 
 export async function getConfigParam(options: GetConfigParamOptions) {

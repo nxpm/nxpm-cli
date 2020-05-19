@@ -45,6 +45,8 @@ USAGE
 # Commands
 
 <!-- commands -->
+* [`nxpm config:delete [FILE]`](#nxpm-configdelete-file)
+* [`nxpm config:edit`](#nxpm-configedit)
 * [`nxpm config:get KEY`](#nxpm-configget-key)
 * [`nxpm config:set KEY VALUE`](#nxpm-configset-key-value)
 * [`nxpm help [COMMAND]`](#nxpm-help-command)
@@ -57,6 +59,37 @@ USAGE
 * [`nxpm release [VERSION]`](#nxpm-release-version)
 * [`nxpm sandbox [SANDBOXID] [ACTION]`](#nxpm-sandbox-sandboxid-action)
 * [`nxpm sandbox:pull`](#nxpm-sandboxpull)
+
+## `nxpm config:delete [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ nxpm config:delete [FILE]
+
+OPTIONS
+  -f, --force
+  -h, --help       show CLI help
+  -n, --name=name  name to print
+```
+
+_See code: [src/commands/config/delete.ts](https://github.com/nxpm/nxpm-cli/blob/v1.11.0/src/commands/config/delete.ts)_
+
+## `nxpm config:edit`
+
+describe the command here
+
+```
+USAGE
+  $ nxpm config:edit
+
+OPTIONS
+  -g, --global  (required) Global config
+  -h, --help    show CLI help
+```
+
+_See code: [src/commands/config/edit.ts](https://github.com/nxpm/nxpm-cli/blob/v1.11.0/src/commands/config/edit.ts)_
 
 ## `nxpm config:get KEY`
 
