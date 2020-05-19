@@ -7,6 +7,9 @@ export interface UserConfig {
       token?: string | null
     }
   }
+  sandbox?: {
+    urls?: string[]
+  }
 }
 
 export const defaultUserConfig: UserConfig = {
@@ -17,5 +20,8 @@ export const defaultUserConfig: UserConfig = {
     github: {
       token: null,
     },
+  },
+  sandbox: {
+    urls: [],
   },
 }

@@ -53,6 +53,8 @@ USAGE
 * [`nxpm registry:start`](#nxpm-registrystart)
 * [`nxpm registry:status`](#nxpm-registrystatus)
 * [`nxpm release [VERSION]`](#nxpm-release-version)
+* [`nxpm sandbox`](#nxpm-sandbox)
+* [`nxpm sandbox:pull [FILE]`](#nxpm-sandboxpull-file)
 
 ## `nxpm help [COMMAND]`
 
@@ -176,4 +178,36 @@ OPTIONS
 ```
 
 _See code: [src/commands/release.ts](https://github.com/nxpm/nxpm-cli/blob/v1.8.0/src/commands/release.ts)_
+
+## `nxpm sandbox`
+
+Create a sandbox using Docker
+
+```
+USAGE
+  $ nxpm sandbox
+
+OPTIONS
+  -c, --cwd=cwd  [default: /Users/beeman/nxpm-cli] Current working directory
+  -h, --help     show CLI help
+  -r, --refresh  Refresh the list of plugins
+```
+
+_See code: [src/commands/sandbox.ts](https://github.com/nxpm/nxpm-cli/blob/v1.8.0/src/commands/sandbox.ts)_
+
+## `nxpm sandbox:pull [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ nxpm sandbox:pull [FILE]
+
+OPTIONS
+  -f, --force
+  -h, --help       show CLI help
+  -n, --name=name  name to print
+```
+
+_See code: [src/commands/sandbox/pull.ts](https://github.com/nxpm/nxpm-cli/blob/v1.8.0/src/commands/sandbox/pull.ts)_
 <!-- commandsstop -->

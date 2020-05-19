@@ -6,8 +6,10 @@ import * as inquirer from 'inquirer'
 import fetch from 'node-fetch'
 import { dirname, join } from 'path'
 import {
+  cacheUrls,
   error,
   exec,
+  fetchJson,
   getWorkspaceInfo,
   gray,
   log,
@@ -168,9 +170,6 @@ const loop = async (info: WorkspaceInfo, { pluginName }: { pluginName?: string }
   }
 }
 
-export const fetchJson = (url: string): Promise<JsonObject> =>
-  fetch(url).then((data: any) => data.json())
-
 export const plugins = async (config: PluginConfig): Promise<void> => {
   const info = getWorkspaceInfo({ cwd: config.cwd })
   const urls = [NX_PLUGINS_URL, NX_COMMUNITY_PLUGINS_URL, NXPM_PLUGINS_URL]
@@ -181,10 +180,7 @@ export const plugins = async (config: PluginConfig): Promise<void> => {
 
   if (!existsSync(join(NXPM_PLUGINS_CACHE)) || config.refresh) {
     cli.action.start(`Downloading plugins from ${urls.length} sources`)
-    mkdirpSync(dirname(NXPM_PLUGINS_CACHE))
-    const results = await Promise.all(urls.map(fetchJson))
-    const cache = urls.reduce((acc, curr, i) => ({ ...acc, [curr]: results[i] }), {})
-    writeJSONSync(NXPM_PLUGINS_CACHE, cache, { spaces: 2 })
+    await cacheUrls(urls, NXPM_PLUGINS_CACHE)
     cli.action.stop()
   }
 

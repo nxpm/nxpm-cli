@@ -1,7 +1,9 @@
+import { JsonObject } from '@angular-devkit/core'
 import { execSync, ExecSyncOptions } from 'child_process'
 import { existsSync } from 'fs'
-import { readJSONSync, writeFileSync } from 'fs-extra'
+import { mkdirpSync, readJSONSync, writeFileSync, writeJSONSync } from 'fs-extra'
 import * as inquirer from 'inquirer'
+import fetch from 'node-fetch'
 import { dirname, join, relative } from 'path'
 
 import * as releaseIt from 'release-it'
@@ -292,4 +294,15 @@ export const selectFromList = async (
     return false
   }
   return response.select
+}
+
+export async function fetchJson(url: string): Promise<JsonObject> {
+  return fetch(url).then((data: any) => data.json())
+}
+
+export async function cacheUrls(urls: string[], cachePath: string) {
+  mkdirpSync(dirname(cachePath))
+  const results = await Promise.all(urls.map(fetchJson))
+  const cache = urls.reduce((acc, curr, i) => ({ ...acc, [curr]: results[i] }), {})
+  writeJSONSync(cachePath, cache, { spaces: 2 })
 }

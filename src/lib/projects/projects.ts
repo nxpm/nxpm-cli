@@ -16,6 +16,7 @@ export const BACK_OPTION = '[ BACK ]'
 export const EXIT_OPTION = '[ EXIT ]'
 export const INSTALL_OPTION = '[ INSTALL ]'
 export const REMOVE_OPTION = '[ REMOVE ]'
+export const RUN_OPTION = '[ RUN ]'
 
 export const setType = (type: string) => {
   switch (type) {
