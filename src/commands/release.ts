@@ -1,9 +1,10 @@
-import { Command, flags } from '@oclif/command'
+import { flags } from '@oclif/command'
 import * as inquirer from 'inquirer'
 import { release } from '../lib/release/release'
+import { BaseCommand, log } from '../utils'
 import { parseVersion } from '../utils/parse-version'
 
-export default class Release extends Command {
+export default class Release extends BaseCommand {
   static description = 'Release publishable packages in an Nx Workspace'
 
   static flags = {
@@ -52,6 +53,11 @@ export default class Release extends Command {
         },
       ])
       args.version = response.version
+    }
+
+    if (this.userConfig?.release?.github?.token) {
+      log('GITHUB_TOKEN', 'Using token from config file')
+      process.env.GITHUB_TOKEN = this.userConfig?.release?.github?.token
     }
 
     await release({
