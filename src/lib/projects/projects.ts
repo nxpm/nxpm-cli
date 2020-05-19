@@ -18,6 +18,9 @@ export const EXIT_OPTION = '[ EXIT ]'
 export const INSTALL_OPTION = '[ INSTALL ]'
 export const REMOVE_OPTION = '[ REMOVE ]'
 export const RUN_OPTION = '[ RUN ]'
+export interface ProjectsConfig extends BaseConfig {
+  cwd: string
+}
 
 export const setType = (type: string) => {
   switch (type) {
@@ -184,7 +187,7 @@ const selectProjectAction = async (
 
 export const interactive = async (
   info: WorkspaceInfo,
-  config: BaseConfig,
+  config: ProjectsConfig,
   { projectName, target }: { projectName?: string; target?: string },
 ) => {
   if (!projectName) {
@@ -224,9 +227,8 @@ export const interactive = async (
     error(`Unknown action ${projectActionResult.action}`)
   }
 }
-
 export const projects = async (
-  config: BaseConfig,
+  config: ProjectsConfig,
   projectName?: string,
   target?: string,
 ): Promise<void> => {

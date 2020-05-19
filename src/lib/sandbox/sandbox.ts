@@ -1,5 +1,5 @@
 import * as inquirer from 'inquirer'
-import { error, getWorkspaceInfo, gray, log, selectFromList, WorkspaceInfo } from '../../utils'
+import { error, gray, log, selectFromList } from '../../utils'
 import { BACK_OPTION, INSTALL_OPTION, REMOVE_OPTION, RUN_OPTION } from '../projects/projects'
 import { Sandbox } from './interfaces/sandbox'
 import { SandboxConfig } from './interfaces/sandbox-config'
@@ -36,11 +36,10 @@ export const getConfigAction = (config: SandboxConfig) => {
 }
 
 export const selectSandboxFlow = async (
-  info: WorkspaceInfo,
   config: SandboxConfig,
   sandboxName?: string,
 ): Promise<{ selection: string; sandboxName: string; sandbox?: Sandbox } | false> => {
-  const [sandboxes, images] = await Promise.all([getSandboxUrlCache(), getDockerImages()])
+  const [sandboxes, images] = await Promise.all([getSandboxUrlCache(config), getDockerImages()])
   if (config.sandboxId) {
     sandboxName = sandboxes.find((sandbox) => sandbox.id === config.sandboxId)?.name
   }
@@ -103,12 +102,8 @@ export const selectSandboxFlow = async (
   }
 }
 
-const loop = async (
-  info: WorkspaceInfo,
-  config: SandboxConfig,
-  { sandboxName }: { sandboxName?: string },
-) => {
-  const result = await selectSandboxFlow(info, config, sandboxName)
+const loop = async (config: SandboxConfig, { sandboxName }: { sandboxName?: string }) => {
+  const result = await selectSandboxFlow(config, sandboxName)
 
   if (!result) {
     return
@@ -118,7 +113,7 @@ const loop = async (
     log('INSTALL', result.sandboxName)
     await pullDockerImage(result.sandboxName)
     console.clear()
-    await loop(info, config, { sandboxName: result.sandboxName })
+    await loop(config, { sandboxName: result.sandboxName })
   }
 
   if (result.selection === REMOVE_OPTION) {
@@ -139,7 +134,7 @@ const loop = async (
         await removeDockerImage(result.sandboxName, true)
       }
     }
-    await loop(info, config, { sandboxName: undefined })
+    await loop(config, { sandboxName: undefined })
   }
 
   if (result.selection === RUN_OPTION && result.sandbox) {
@@ -166,7 +161,7 @@ const loop = async (
     } catch (e) {
       console.clear()
     }
-    // await loop(info, config, { sandboxName: result.sandboxName })
+    // await loop(config, { sandboxName: result.sandboxName })
   }
 
   if (result.selection.startsWith(result.sandboxName)) {
@@ -177,12 +172,11 @@ const loop = async (
   }
 
   if (result.selection === BACK_OPTION) {
-    await loop(info, config, {})
+    await loop(config, {})
   }
 }
 
 export const sandbox = async (config: SandboxConfig): Promise<void> => {
-  const info = getWorkspaceInfo({ cwd: config.cwd })
   await sandboxUrlCache(config)
-  await loop(info, config, {})
+  await loop(config, {})
 }

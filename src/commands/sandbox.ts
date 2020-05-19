@@ -49,7 +49,7 @@ export default class Sandbox extends BaseCommand {
 
     await sandbox({
       action: args.action,
-      cwd: flags.cwd,
+      config: this.config,
       refresh: flags.refresh,
       portApi: flags['port-api'],
       portWeb: flags['port-web'],

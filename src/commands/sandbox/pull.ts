@@ -6,11 +6,6 @@ export default class SandboxPull extends BaseCommand {
   static description = 'Pull images of sandboxes'
 
   static flags = {
-    cwd: flags.string({
-      char: 'c',
-      description: 'Current working directory',
-      default: process.cwd(),
-    }),
     force: flags.boolean({
       char: 'f',
       description: 'Force removal of the sandboxes',
@@ -33,10 +28,10 @@ export default class SandboxPull extends BaseCommand {
     const { flags } = this.parse(SandboxPull)
 
     await sandboxPull({
-      cwd: flags.cwd,
       force: flags.force,
       refresh: flags.refresh,
       remove: flags.remove,
+      config: this.config,
       userConfig: this.userConfig,
     })
   }

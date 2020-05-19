@@ -3,7 +3,7 @@ import { cli } from 'cli-ux'
 import { existsSync } from 'fs'
 import { readJSON } from 'fs-extra'
 import { join } from 'path'
-import { gray, cacheUrls, exec, log, NXPM_SANDBOX_CACHE, NXPM_SANDBOXES_URL } from '../../../utils'
+import { cacheUrls, exec, gray, log, NXPM_SANDBOX_CACHE, NXPM_SANDBOXES_URL } from '../../../utils'
 import { Sandbox } from '../interfaces/sandbox'
 import { SandboxConfig } from '../interfaces/sandbox-config'
 
@@ -29,21 +29,23 @@ export async function getDockerImages() {
 }
 
 export async function sandboxUrlCache(config: SandboxConfig) {
+  const cacheFile = join(config.config.cacheDir, NXPM_SANDBOX_CACHE)
   const urls = [NXPM_SANDBOXES_URL]
 
   if (config.userConfig?.sandbox?.urls) {
     urls.push(...config.userConfig?.sandbox?.urls)
   }
 
-  if (!existsSync(join(NXPM_SANDBOX_CACHE)) || config.refresh) {
+  if (!existsSync(join(cacheFile)) || config.refresh) {
     cli.action.start(`Downloading sandbox registry from ${urls.length} source(s)`)
-    await cacheUrls(urls, NXPM_SANDBOX_CACHE)
+    await cacheUrls(urls, cacheFile)
     cli.action.stop()
   }
 }
 
-export async function getSandboxUrlCache(): Promise<Sandbox[]> {
-  const sandboxGroups = await readJSON(NXPM_SANDBOX_CACHE)
+export async function getSandboxUrlCache(config: SandboxConfig): Promise<Sandbox[]> {
+  const cacheFile = join(config.config.cacheDir, NXPM_SANDBOX_CACHE)
+  const sandboxGroups = await readJSON(cacheFile)
   return Object.values(sandboxGroups).flat()
 }
 

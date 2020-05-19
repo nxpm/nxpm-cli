@@ -1,7 +1,9 @@
+import { IConfig } from '@oclif/config'
 import { UserConfig } from './user-config'
 
 export interface BaseConfig {
-  cwd: string
+  config?: IConfig
+  cwd?: string
   dryRun?: boolean
   userConfig?: UserConfig
 }

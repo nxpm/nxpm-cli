@@ -1,5 +1,5 @@
 import { cli } from 'cli-ux'
-import { error, getWorkspaceInfo, log } from '../../utils'
+import { error, log } from '../../utils'
 import { SandboxPullConfig } from './interfaces/sandbox-pull-config'
 import {
   getDockerImages,
@@ -11,7 +11,7 @@ import {
 
 const pull = async (config: SandboxPullConfig) => {
   const existing = await getDockerImages()
-  const sandboxes = await getSandboxUrlCache()
+  const sandboxes = await getSandboxUrlCache(config)
 
   const filtered = config.remove ? sandboxes : sandboxes.filter((s) => !existing.includes(s.name))
 
@@ -43,7 +43,6 @@ const pull = async (config: SandboxPullConfig) => {
 }
 
 export const sandboxPull = async (config: SandboxPullConfig): Promise<void> => {
-  getWorkspaceInfo({ cwd: config.cwd })
   await sandboxUrlCache(config)
   await pull(config)
 }
