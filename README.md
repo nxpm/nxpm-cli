@@ -34,7 +34,7 @@ $ npm install -g nxpm
 $ nxpm COMMAND
 running command...
 $ nxpm (-v|--version|version)
-nxpm/1.8.0 darwin-x64 node-v12.16.2
+nxpm/1.9.0 darwin-x64 node-v12.16.2
 $ nxpm --help [COMMAND]
 USAGE
   $ nxpm COMMAND
@@ -45,6 +45,8 @@ USAGE
 # Commands
 
 <!-- commands -->
+* [`nxpm config:get KEY`](#nxpm-configget-key)
+* [`nxpm config:set KEY VALUE`](#nxpm-configset-key-value)
 * [`nxpm help [COMMAND]`](#nxpm-help-command)
 * [`nxpm plugins`](#nxpm-plugins)
 * [`nxpm projects [PROJECTNAME]`](#nxpm-projects-projectname)
@@ -53,8 +55,38 @@ USAGE
 * [`nxpm registry:start`](#nxpm-registrystart)
 * [`nxpm registry:status`](#nxpm-registrystatus)
 * [`nxpm release [VERSION]`](#nxpm-release-version)
-* [`nxpm sandbox`](#nxpm-sandbox)
-* [`nxpm sandbox:pull [FILE]`](#nxpm-sandboxpull-file)
+* [`nxpm sandbox [SANDBOXID] [ACTION]`](#nxpm-sandbox-sandboxid-action)
+* [`nxpm sandbox:pull`](#nxpm-sandboxpull)
+
+## `nxpm config:get KEY`
+
+describe the command here
+
+```
+USAGE
+  $ nxpm config:get KEY
+
+OPTIONS
+  -g, --global  (required) Global config
+  -h, --help    show CLI help
+```
+
+_See code: [src/commands/config/get.ts](https://github.com/nxpm/nxpm-cli/blob/v1.9.0/src/commands/config/get.ts)_
+
+## `nxpm config:set KEY VALUE`
+
+describe the command here
+
+```
+USAGE
+  $ nxpm config:set KEY VALUE
+
+OPTIONS
+  -g, --global  (required) Global config
+  -h, --help    show CLI help
+```
+
+_See code: [src/commands/config/set.ts](https://github.com/nxpm/nxpm-cli/blob/v1.9.0/src/commands/config/set.ts)_
 
 ## `nxpm help [COMMAND]`
 
@@ -90,7 +122,7 @@ ALIASES
   $ nxpm pl
 ```
 
-_See code: [src/commands/plugins.ts](https://github.com/nxpm/nxpm-cli/blob/v1.8.0/src/commands/plugins.ts)_
+_See code: [src/commands/plugins.ts](https://github.com/nxpm/nxpm-cli/blob/v1.9.0/src/commands/plugins.ts)_
 
 ## `nxpm projects [PROJECTNAME]`
 
@@ -111,7 +143,7 @@ ALIASES
   $ nxpm p
 ```
 
-_See code: [src/commands/projects.ts](https://github.com/nxpm/nxpm-cli/blob/v1.8.0/src/commands/projects.ts)_
+_See code: [src/commands/projects.ts](https://github.com/nxpm/nxpm-cli/blob/v1.9.0/src/commands/projects.ts)_
 
 ## `nxpm registry:disable`
 
@@ -122,7 +154,7 @@ USAGE
   $ nxpm registry:disable
 ```
 
-_See code: [src/commands/registry/disable.ts](https://github.com/nxpm/nxpm-cli/blob/v1.8.0/src/commands/registry/disable.ts)_
+_See code: [src/commands/registry/disable.ts](https://github.com/nxpm/nxpm-cli/blob/v1.9.0/src/commands/registry/disable.ts)_
 
 ## `nxpm registry:enable`
 
@@ -133,7 +165,7 @@ USAGE
   $ nxpm registry:enable
 ```
 
-_See code: [src/commands/registry/enable.ts](https://github.com/nxpm/nxpm-cli/blob/v1.8.0/src/commands/registry/enable.ts)_
+_See code: [src/commands/registry/enable.ts](https://github.com/nxpm/nxpm-cli/blob/v1.9.0/src/commands/registry/enable.ts)_
 
 ## `nxpm registry:start`
 
@@ -144,7 +176,7 @@ USAGE
   $ nxpm registry:start
 ```
 
-_See code: [src/commands/registry/start.ts](https://github.com/nxpm/nxpm-cli/blob/v1.8.0/src/commands/registry/start.ts)_
+_See code: [src/commands/registry/start.ts](https://github.com/nxpm/nxpm-cli/blob/v1.9.0/src/commands/registry/start.ts)_
 
 ## `nxpm registry:status`
 
@@ -155,7 +187,7 @@ USAGE
   $ nxpm registry:status
 ```
 
-_See code: [src/commands/registry/status.ts](https://github.com/nxpm/nxpm-cli/blob/v1.8.0/src/commands/registry/status.ts)_
+_See code: [src/commands/registry/status.ts](https://github.com/nxpm/nxpm-cli/blob/v1.9.0/src/commands/registry/status.ts)_
 
 ## `nxpm release [VERSION]`
 
@@ -177,15 +209,19 @@ OPTIONS
   --ci             CI mode (fully automatic release)
 ```
 
-_See code: [src/commands/release.ts](https://github.com/nxpm/nxpm-cli/blob/v1.8.0/src/commands/release.ts)_
+_See code: [src/commands/release.ts](https://github.com/nxpm/nxpm-cli/blob/v1.9.0/src/commands/release.ts)_
 
-## `nxpm sandbox`
+## `nxpm sandbox [SANDBOXID] [ACTION]`
 
 Create a sandbox using Docker
 
 ```
 USAGE
-  $ nxpm sandbox
+  $ nxpm sandbox [SANDBOXID] [ACTION]
+
+ARGUMENTS
+  SANDBOXID  The ID of the sandbox
+  ACTION     Action to perform on sandbox
 
 OPTIONS
   -c, --cwd=cwd  [default: /Users/beeman/nxpm-cli] Current working directory
@@ -193,21 +229,23 @@ OPTIONS
   -r, --refresh  Refresh the list of plugins
 ```
 
-_See code: [src/commands/sandbox.ts](https://github.com/nxpm/nxpm-cli/blob/v1.8.0/src/commands/sandbox.ts)_
+_See code: [src/commands/sandbox.ts](https://github.com/nxpm/nxpm-cli/blob/v1.9.0/src/commands/sandbox.ts)_
 
-## `nxpm sandbox:pull [FILE]`
+## `nxpm sandbox:pull`
 
-describe the command here
+Pull images of sandboxes
 
 ```
 USAGE
-  $ nxpm sandbox:pull [FILE]
+  $ nxpm sandbox:pull
 
 OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
+  -c, --cwd=cwd  [default: /Users/beeman/nxpm-cli] Current working directory
+  -f, --force    Force removal of the sandboxes
+  -h, --help     show CLI help
+  -m, --remove   Remove all of the sandboxes before pulling
+  -r, --refresh  Refresh the list of sandboxes
 ```
 
-_See code: [src/commands/sandbox/pull.ts](https://github.com/nxpm/nxpm-cli/blob/v1.8.0/src/commands/sandbox/pull.ts)_
+_See code: [src/commands/sandbox/pull.ts](https://github.com/nxpm/nxpm-cli/blob/v1.9.0/src/commands/sandbox/pull.ts)_
 <!-- commandsstop -->
