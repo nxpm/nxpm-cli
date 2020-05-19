@@ -159,7 +159,7 @@ const loop = async (config: SandboxConfig, { sandboxName }: { sandboxName?: stri
         },
       })
     } catch (e) {
-      console.clear()
+      error(e.message)
     }
     // await loop(config, { sandboxName: result.sandboxName })
   }

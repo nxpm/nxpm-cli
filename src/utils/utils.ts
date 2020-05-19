@@ -291,6 +291,7 @@ export const selectFromList = async (
     },
   ])
   if (response.select === EXIT_OPTION) {
+    console.clear()
     return false
   }
   return response.select

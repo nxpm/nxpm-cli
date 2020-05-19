@@ -3,9 +3,34 @@ import { cli } from 'cli-ux'
 import { existsSync } from 'fs'
 import { readJSON } from 'fs-extra'
 import { join } from 'path'
-import { cacheUrls, exec, gray, log, NXPM_SANDBOX_CACHE, NXPM_SANDBOXES_URL } from '../../../utils'
+import {
+  cacheUrls,
+  error,
+  exec,
+  gray,
+  log,
+  NXPM_SANDBOX_CACHE,
+  NXPM_SANDBOXES_URL,
+} from '../../../utils'
 import { Sandbox } from '../interfaces/sandbox'
 import { SandboxConfig } from '../interfaces/sandbox-config'
+
+export async function getDockerContainer(name: string) {
+  const raw = spawnSync(`docker`, [
+    'ps',
+    '--no-trunc',
+    '-f',
+    `name=${name}`,
+    `--no-trunc`,
+    `--format`,
+    `{{ json . }}`,
+  ])
+  if (raw.stdout) {
+    try {
+      return JSON.parse(raw.stdout.toString())
+    } catch (e) {}
+  }
+}
 
 export async function getDockerImages() {
   const res: any[] = []
@@ -57,12 +82,32 @@ export async function pullDockerImage(image: string) {
   return exec(`docker pull ${image}`)
 }
 
+export async function attachDockerImage(image: string, options: { name: string }) {
+  const existing = await getDockerContainer(options.name)
+
+  if (!existing) {
+    error(`Can't find container ${options.name}`)
+    return Promise.reject()
+  }
+
+  const cmd = 'docker'
+  const action = 'exec'
+  const params = ['-it']
+  const command = [cmd, action, params.join(' '), options.name, 'zsh', '&& true'].join(' ')
+  log('ATTACH', gray(command))
+  return exec(command)
+}
+
 export async function runDockerImage(
   image: string,
-  {
-    options,
-  }: { options: { hostname?: string; name?: string; params?: string[]; ports: string[] } },
+  { options }: { options: { hostname?: string; name: string; params?: string[]; ports: string[] } },
 ) {
+  const existing = await getDockerContainer(options.name)
+
+  if (existing) {
+    return attachDockerImage(image, { name: options.name })
+  }
+
   const host = process.env.DOCKER_MACHINE_NAME ? process.env.DOCKER_MACHINE_NAME : 'localhost'
   const cmd = 'docker'
   const action = 'run'
@@ -83,7 +128,9 @@ export async function runDockerImage(
     ports,
   ]
   const params = options.params || []
-  const command = [cmd, action, defaultParams.join(' '), params.join(' '), image].join(' ')
+  const command = [cmd, action, defaultParams.join(' '), params.join(' '), image, '&& true'].join(
+    ' ',
+  )
   log('RUN', gray(command))
   return exec(command)
 }
