@@ -139,7 +139,7 @@ const loop = async (
         await removeDockerImage(result.sandboxName, true)
       }
     }
-    log('Done')
+    await loop(info, config, { sandboxName: undefined })
   }
 
   if (result.selection === RUN_OPTION && result.sandbox) {
