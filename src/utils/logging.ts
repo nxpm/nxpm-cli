@@ -18,4 +18,4 @@ export const log = (msg: string, ...params: unknown[]): void =>
   console.log(`${info()}`, `${greenBright(msg)}`, ...params)
 
 export const error = (msg: string, ...params: unknown[]): void =>
-  log(`${err()}`, `${yellowBright(msg)}`, ...params)
+  log(`${err()}`, `${redBright(msg)}`, ...params)

@@ -1,7 +1,8 @@
-import { Command, flags } from '@oclif/command'
+import { flags } from '@oclif/command'
 import { plugins } from '../lib/plugins/plugins'
+import { BaseCommand } from '../utils'
 
-export default class Plugins extends Command {
+export default class Plugins extends BaseCommand {
   static aliases = ['pl']
 
   static description = 'Install and remove community plugins'
@@ -13,11 +14,16 @@ export default class Plugins extends Command {
       default: process.cwd(),
     }),
     help: flags.help({ char: 'h' }),
+    refresh: flags.boolean({
+      char: 'r',
+      description: 'Refresh the list of plugins',
+      default: false,
+    }),
   }
 
   async run() {
     const { flags } = this.parse(Plugins)
 
-    await plugins({ cwd: flags.cwd })
+    await plugins({ cwd: flags.cwd, userConfig: this.userConfig, refresh: flags.refresh })
   }
 }

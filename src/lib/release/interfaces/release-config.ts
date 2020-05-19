@@ -1,7 +1,4 @@
-export interface BaseConfig {
-  cwd: string
-  dryRun?: boolean
-}
+import { BaseConfig } from '../../../utils/base-config'
 
 export interface ReleaseConfig extends BaseConfig {
   ci: boolean

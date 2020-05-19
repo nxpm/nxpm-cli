@@ -1,7 +1,7 @@
 import { existsSync } from 'fs'
 import { readJSONSync } from 'fs-extra'
 import { join } from 'path'
-import { log } from './logging'
+import { error, log } from './logging'
 
 export interface WorkspaceInfo {
   cli: 'nx' | 'ng'
@@ -33,7 +33,8 @@ export function getWorkspaceInfo({ cwd }: WorkspaceParams): WorkspaceInfo {
   const yarnLockExists = existsSync(yarnLockPath)
 
   if (!angularJsonExists && !workspaceJsonExists) {
-    throw new Error(`Can't find angular.json or workspace.json in ${cwd}`)
+    error(`Can't find angular.json or workspace.json in ${cwd}`)
+    process.exit(1)
   }
 
   if (packageLockJsonExists && yarnLockExists) {

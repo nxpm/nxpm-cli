@@ -10,7 +10,7 @@ import {
   selectFromList,
   WorkspaceInfo,
 } from '../../utils'
-import { BaseConfig } from '../release/interfaces/release-config'
+import { BaseConfig } from '../../utils/base-config'
 
 export const BACK_OPTION = '[ BACK ]'
 export const EXIT_OPTION = '[ EXIT ]'

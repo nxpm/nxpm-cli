@@ -1,3 +1,4 @@
+import { existsSync } from 'fs'
 import { basename, dirname, join } from 'path'
 import { Schematic, SchematicCollection } from './schema'
 
@@ -157,7 +158,7 @@ async function readCollectionSchematics(
         })
       }
     } catch (e) {
-      console.error(e)
+      // console.error(e)
       console.error(`Invalid package.json for schematic ${collectionName}:${k}`)
     }
   })
