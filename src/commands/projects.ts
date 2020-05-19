@@ -1,7 +1,8 @@
-import { Command, flags } from '@oclif/command'
+import { flags } from '@oclif/command'
 import { projects } from '../lib/projects/projects'
+import { BaseCommand } from '../utils'
 
-export default class Projects extends Command {
+export default class Projects extends BaseCommand {
   static aliases = ['p']
 
   static description = 'Interactive menu to run builders and schematics for projects'
@@ -21,11 +22,20 @@ export default class Projects extends Command {
       description: 'The name of the project you want to operate on',
       required: false,
     },
+    {
+      name: 'target',
+      description: 'The target to run (build, serve, test, etc)',
+      required: false,
+    },
   ]
 
   async run() {
     const { args, flags } = this.parse(Projects)
 
-    await projects({ cwd: flags.cwd, dryRun: false }, args.projectName)
+    await projects(
+      { cwd: flags.cwd, dryRun: false, userConfig: this.userConfig },
+      args.projectName,
+      args.target,
+    )
   }
 }

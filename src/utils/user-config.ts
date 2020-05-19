@@ -7,6 +7,11 @@ export interface UserConfig {
       token?: string | null
     }
   }
+  projects?: {
+    serve?: {
+      params?: string
+    }
+  }
   sandbox?: {
     urls?: string[]
   }

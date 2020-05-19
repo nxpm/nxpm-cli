@@ -1,5 +1,5 @@
 import { flags } from '@oclif/command'
-import { getConfigParam, setConfigParam } from '../../lib/config/config'
+import { getConfigParam } from '../../lib/config/config'
 import { BaseCommand } from '../../utils'
 
 export default class ConfigGet extends BaseCommand {
@@ -7,7 +7,6 @@ export default class ConfigGet extends BaseCommand {
 
   static flags = {
     help: flags.help({ char: 'h' }),
-    // flag with a value (-n, --name=VALUE)
     global: flags.boolean({ char: 'g', description: 'Global config', required: true }),
   }
 

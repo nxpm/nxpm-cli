@@ -1,5 +1,6 @@
 import { readJSONSync } from 'fs-extra'
 import * as inquirer from 'inquirer'
+import { get } from 'lodash'
 import { join } from 'path'
 import {
   error,
@@ -78,7 +79,7 @@ export const getSchematicParams = (cwd: string, param: string): Promise<any | fa
         default: false,
       },
     ]
-    // console.log('properties', schemaProperties)
+
     return Promise.resolve({ properties })
   } catch (error) {
     error(error)
@@ -127,7 +128,12 @@ const selectProjectName = async (info: WorkspaceInfo): Promise<string | false> =
 
 const selectProjectAction = async (
   info: WorkspaceInfo,
-  { projectName, project }: { projectName: string; project: any },
+  {
+    target,
+    params,
+    projectName,
+    project,
+  }: { target?: string; params: { [key: string]: any }; projectName: string; project: any },
 ): Promise<{ action: string; payload: any } | false> => {
   const answers: any = { projectName }
   const architects = Object.keys(project?.architect).sort()
@@ -138,20 +144,28 @@ const selectProjectAction = async (
     new inquirer.Separator('Schematics'),
     ...schematics,
   ]
-  const response = await selectFromList(projectOptions, {
-    addExit: true,
-    message: `Selected ${project.projectType} ${projectName} ${gray(project.root)}`,
-  })
+  if (!target) {
+    const found = await selectFromList(projectOptions, {
+      addExit: true,
+      message: `Selected ${project.projectType} ${projectName} ${gray(project.root)}`,
+    })
+    if (!found) {
+      error(`Action not found`)
+      return Promise.resolve(false)
+    }
+    target = found
+  }
 
-  if (response === false) {
-    return Promise.resolve(false)
+  if (architects.includes(target)) {
+    const architectParams = get(params, `${target}.params`, '')
+    return {
+      action: 'exec',
+      payload: `${info.cli} run ${projectName}:${target} ${architectParams}`,
+    }
   }
-  if (architects.includes(response)) {
-    return { action: 'exec', payload: `${info.cli} run ${projectName}:${response}` }
-  }
-  if (schematics.includes(response)) {
-    const params = await getSchematicParams(info.cwd, response)
-    const payload = [`${info.cli} generate ${response}`]
+  if (schematics.includes(target)) {
+    const params = await getSchematicParams(info.cwd, target)
+    const payload = [`${info.cli} generate ${target}`]
     if (Object.keys(params.properties).length !== 0) {
       Object.keys(answers).forEach((answer) => payload.push(` --${answer} ${answers[answer]}`))
 
@@ -161,7 +175,6 @@ const selectProjectAction = async (
         }),
       )
       Object.keys(res).forEach((answer) => payload.push(` --${answer} ${res[answer]}`))
-      // console.log(res)
     }
 
     return { action: 'exec', payload: payload.join(' ') }
@@ -171,7 +184,8 @@ const selectProjectAction = async (
 
 export const interactive = async (
   info: WorkspaceInfo,
-  { projectName }: { projectName?: string },
+  config: BaseConfig,
+  { projectName, target }: { projectName?: string; target?: string },
 ) => {
   if (!projectName) {
     const res = await selectProjectName(info)
@@ -191,25 +205,33 @@ export const interactive = async (
     return
   }
 
+  const params = get(config?.userConfig, 'projects', {})
   const projectActionResult = await selectProjectAction(info, {
+    target,
     projectName,
     project,
+    params,
   })
 
   if (projectActionResult === false) {
     return
   }
+
   if (projectActionResult.action === 'exec') {
-    exec(projectActionResult.payload)
+    exec(`${projectActionResult.payload}`)
     exec(`yarn format`, { stdio: 'ignore' })
   } else {
     error(`Unknown action ${projectActionResult.action}`)
   }
 }
 
-export const projects = async (config: BaseConfig, projectName?: string): Promise<void> => {
+export const projects = async (
+  config: BaseConfig,
+  projectName?: string,
+  target?: string,
+): Promise<void> => {
   log('Projects', gray(`Working directory ${config.cwd}`))
   const info = getWorkspaceInfo({ cwd: config.cwd })
 
-  await interactive(info, { projectName })
+  await interactive(info, config, { projectName, target })
 }
