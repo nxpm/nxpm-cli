@@ -45,6 +45,8 @@ USAGE
 # Commands
 
 <!-- commands -->
+* [`nxpm config:get [FILE]`](#nxpm-configget-file)
+* [`nxpm config:set [FILE]`](#nxpm-configset-file)
 * [`nxpm help [COMMAND]`](#nxpm-help-command)
 * [`nxpm plugins`](#nxpm-plugins)
 * [`nxpm projects [PROJECTNAME]`](#nxpm-projects-projectname)
@@ -53,8 +55,40 @@ USAGE
 * [`nxpm registry:start`](#nxpm-registrystart)
 * [`nxpm registry:status`](#nxpm-registrystatus)
 * [`nxpm release [VERSION]`](#nxpm-release-version)
-* [`nxpm sandbox`](#nxpm-sandbox)
-* [`nxpm sandbox:pull [FILE]`](#nxpm-sandboxpull-file)
+* [`nxpm sandbox [SANDBOXID] [ACTION]`](#nxpm-sandbox-sandboxid-action)
+* [`nxpm sandbox:pull`](#nxpm-sandboxpull)
+
+## `nxpm config:get [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ nxpm config:get [FILE]
+
+OPTIONS
+  -f, --force
+  -h, --help       show CLI help
+  -n, --name=name  name to print
+```
+
+_See code: [src/commands/config/get.ts](https://github.com/nxpm/nxpm-cli/blob/v1.8.0/src/commands/config/get.ts)_
+
+## `nxpm config:set [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ nxpm config:set [FILE]
+
+OPTIONS
+  -f, --force
+  -h, --help       show CLI help
+  -n, --name=name  name to print
+```
+
+_See code: [src/commands/config/set.ts](https://github.com/nxpm/nxpm-cli/blob/v1.8.0/src/commands/config/set.ts)_
 
 ## `nxpm help [COMMAND]`
 
@@ -179,13 +213,17 @@ OPTIONS
 
 _See code: [src/commands/release.ts](https://github.com/nxpm/nxpm-cli/blob/v1.8.0/src/commands/release.ts)_
 
-## `nxpm sandbox`
+## `nxpm sandbox [SANDBOXID] [ACTION]`
 
 Create a sandbox using Docker
 
 ```
 USAGE
-  $ nxpm sandbox
+  $ nxpm sandbox [SANDBOXID] [ACTION]
+
+ARGUMENTS
+  SANDBOXID  The ID of the sandbox
+  ACTION     Action to perform on sandbox
 
 OPTIONS
   -c, --cwd=cwd  [default: /Users/beeman/nxpm-cli] Current working directory
@@ -195,18 +233,20 @@ OPTIONS
 
 _See code: [src/commands/sandbox.ts](https://github.com/nxpm/nxpm-cli/blob/v1.8.0/src/commands/sandbox.ts)_
 
-## `nxpm sandbox:pull [FILE]`
+## `nxpm sandbox:pull`
 
-describe the command here
+Pull images of sandboxes
 
 ```
 USAGE
-  $ nxpm sandbox:pull [FILE]
+  $ nxpm sandbox:pull
 
 OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
+  -c, --cwd=cwd  [default: /Users/beeman/nxpm-cli] Current working directory
+  -f, --force    Force removal of the sandboxes
+  -h, --help     show CLI help
+  -m, --remove   Remove all of the sandboxes before pulling
+  -r, --refresh  Refresh the list of sandboxes
 ```
 
 _See code: [src/commands/sandbox/pull.ts](https://github.com/nxpm/nxpm-cli/blob/v1.8.0/src/commands/sandbox/pull.ts)_
