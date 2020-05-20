@@ -16,6 +16,7 @@
     "@oclif/command": "^1.6.1",
     "@oclif/config": "^1.15.1",
     "@oclif/plugin-help": "^3.0.1",
+    "@rauschma/stringio": "^1.4.0",
     "chalk": "^4.0.0",
     "cli-ux": "^5.4.5",
     "fs-extra": "^9.0.0",

@@ -13,10 +13,9 @@
 [![License](https://img.shields.io/npm/l/nxpm.svg)](https://github.com/nxpm/nxpm/blob/master/package.json)
 
 <!-- toc -->
-
-- [nxpm](#nxpm)
-- [Usage](#usage)
-- [Commands](#commands)
+* [nxpm](#nxpm)
+* [Usage](#usage)
+* [Commands](#commands)
 <!-- tocstop -->
 
 ### nxpm plugins
@@ -40,7 +39,6 @@ Quickly spin up Docker based sandboxes with various NX presets installed.
 # Usage
 
 <!-- usage -->
-
 ```sh-session
 $ npm install -g nxpm
 $ nxpm COMMAND
@@ -52,27 +50,42 @@ USAGE
   $ nxpm COMMAND
 ...
 ```
-
 <!-- usagestop -->
 
 # Commands
 
 <!-- commands -->
+* [`nxpm cast [FILE]`](#nxpm-cast-file)
+* [`nxpm config:delete`](#nxpm-configdelete)
+* [`nxpm config:edit`](#nxpm-configedit)
+* [`nxpm config:get KEY`](#nxpm-configget-key)
+* [`nxpm config:set KEY VALUE`](#nxpm-configset-key-value)
+* [`nxpm help [COMMAND]`](#nxpm-help-command)
+* [`nxpm plugins`](#nxpm-plugins)
+* [`nxpm projects [PROJECTNAME] [TARGET]`](#nxpm-projects-projectname-target)
+* [`nxpm registry:disable`](#nxpm-registrydisable)
+* [`nxpm registry:enable`](#nxpm-registryenable)
+* [`nxpm registry:start`](#nxpm-registrystart)
+* [`nxpm registry:status`](#nxpm-registrystatus)
+* [`nxpm release [VERSION]`](#nxpm-release-version)
+* [`nxpm sandbox [SANDBOXID] [ACTION]`](#nxpm-sandbox-sandboxid-action)
+* [`nxpm sandbox:pull`](#nxpm-sandboxpull)
 
-- [`nxpm config:delete`](#nxpm-configdelete)
-- [`nxpm config:edit`](#nxpm-configedit)
-- [`nxpm config:get KEY`](#nxpm-configget-key)
-- [`nxpm config:set KEY VALUE`](#nxpm-configset-key-value)
-- [`nxpm help [COMMAND]`](#nxpm-help-command)
-- [`nxpm plugins`](#nxpm-plugins)
-- [`nxpm projects [PROJECTNAME] [TARGET]`](#nxpm-projects-projectname-target)
-- [`nxpm registry:disable`](#nxpm-registrydisable)
-- [`nxpm registry:enable`](#nxpm-registryenable)
-- [`nxpm registry:start`](#nxpm-registrystart)
-- [`nxpm registry:status`](#nxpm-registrystatus)
-- [`nxpm release [VERSION]`](#nxpm-release-version)
-- [`nxpm sandbox [SANDBOXID] [ACTION]`](#nxpm-sandbox-sandboxid-action)
-- [`nxpm sandbox:pull`](#nxpm-sandboxpull)
+## `nxpm cast [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ nxpm cast [FILE]
+
+OPTIONS
+  -f, --force
+  -h, --help       show CLI help
+  -n, --name=name  name to print
+```
+
+_See code: [src/commands/cast.ts](https://github.com/nxpm/nxpm-cli/blob/v1.13.0/src/commands/cast.ts)_
 
 ## `nxpm config:delete`
 
@@ -297,5 +310,4 @@ OPTIONS
 ```
 
 _See code: [src/commands/sandbox/pull.ts](https://github.com/nxpm/nxpm-cli/blob/v1.13.0/src/commands/sandbox/pull.ts)_
-
 <!-- commandsstop -->
