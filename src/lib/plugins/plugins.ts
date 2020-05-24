@@ -1,15 +1,9 @@
-import { JsonObject } from '@angular-devkit/core'
-import { cli } from 'cli-ux'
-import { existsSync } from 'fs'
-import { mkdirpSync, readJSON, writeJSONSync } from 'fs-extra'
+import { readJSON } from 'fs-extra'
 import * as inquirer from 'inquirer'
-import fetch from 'node-fetch'
-import { dirname, join } from 'path'
+import { join } from 'path'
 import {
-  cacheUrls,
   error,
   exec,
-  fetchJson,
   getWorkspaceInfo,
   gray,
   log,
@@ -24,6 +18,7 @@ import { readAllSchematicCollections } from '../../utils/vendor/nx-console/read-
 import { SchematicCollection } from '../../utils/vendor/nx-console/schema'
 import { BACK_OPTION, INSTALL_OPTION, REMOVE_OPTION } from '../projects/projects'
 import { PluginConfig } from './interfaces/plugin-config'
+import { pluginUrlCache } from './utils/plugin-utils'
 
 export interface NxPlugin {
   name: string
@@ -31,8 +26,9 @@ export interface NxPlugin {
   url: string
 }
 
-export const loadPluginsSchematics = async (info: WorkspaceInfo) => {
-  const pluginGroups = await readJSON(NXPM_PLUGINS_CACHE)
+export const loadPluginsSchematics = async (info: WorkspaceInfo, config: PluginConfig) => {
+  const cacheFile = join(config.config.cacheDir, NXPM_PLUGINS_CACHE)
+  const pluginGroups = await readJSON(cacheFile)
   const plugins = Object.values(pluginGroups).flat()
   const schematics = await readAllSchematicCollections(info.workspaceJsonPath)
   const schematicsNames = schematics.map((s: SchematicCollection) => s.name)
@@ -65,6 +61,7 @@ export const selectPlugin = async (
 
 export const selectPluginFlow = async (
   info: WorkspaceInfo,
+  config: PluginConfig,
   pluginName?: string,
 ): Promise<{ selection: string; pluginName: string; plugin?: NxPlugin } | false> => {
   const {
@@ -72,7 +69,7 @@ export const selectPluginFlow = async (
     installedPluginNames,
     plugins,
     schematics,
-  } = await loadPluginsSchematics(info)
+  } = await loadPluginsSchematics(info, config)
   const options: any[] = []
 
   if (!pluginName) {
@@ -130,8 +127,12 @@ export const selectPluginFlow = async (
   }
 }
 
-const loop = async (info: WorkspaceInfo, { pluginName }: { pluginName?: string }) => {
-  const result = await selectPluginFlow(info, pluginName)
+const loop = async (
+  info: WorkspaceInfo,
+  config: PluginConfig,
+  { pluginName }: { pluginName?: string },
+) => {
+  const result = await selectPluginFlow(info, config, pluginName)
 
   if (!result) {
     return
@@ -145,7 +146,7 @@ const loop = async (info: WorkspaceInfo, { pluginName }: { pluginName?: string }
     log('Installing plugin')
     exec(command, { stdio: 'ignore' })
     console.clear()
-    await loop(info, { pluginName: result.pluginName })
+    await loop(info, config, { pluginName: result.pluginName })
   }
 
   if (result.selection === REMOVE_OPTION) {
@@ -166,23 +167,12 @@ const loop = async (info: WorkspaceInfo, { pluginName }: { pluginName?: string }
   }
 
   if (result.selection === BACK_OPTION) {
-    await loop(info, { pluginName })
+    await loop(info, config, { pluginName })
   }
 }
 
 export const plugins = async (config: PluginConfig): Promise<void> => {
   const info = getWorkspaceInfo({ cwd: config.cwd })
-  const urls = [NX_PLUGINS_URL, NX_COMMUNITY_PLUGINS_URL, NXPM_PLUGINS_URL]
-
-  if (config.userConfig?.plugins?.urls) {
-    urls.push(...config.userConfig?.plugins?.urls)
-  }
-
-  if (!existsSync(join(NXPM_PLUGINS_CACHE)) || config.refresh) {
-    cli.action.start(`Downloading plugins from ${urls.length} sources`)
-    await cacheUrls(urls, NXPM_PLUGINS_CACHE)
-    cli.action.stop()
-  }
-
-  await loop(info, {})
+  await pluginUrlCache(config)
+  await loop(info, config, {})
 }

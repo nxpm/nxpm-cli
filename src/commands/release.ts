@@ -61,6 +61,7 @@ export default class Release extends BaseCommand {
     }
 
     await release({
+      config: this.config,
       allowIvy: flags['allow-ivy'],
       ci: flags.ci,
       cwd: flags.cwd,
