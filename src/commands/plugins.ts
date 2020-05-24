@@ -24,6 +24,11 @@ export default class Plugins extends BaseCommand {
   async run() {
     const { flags } = this.parse(Plugins)
 
-    await plugins({ cwd: flags.cwd, userConfig: this.userConfig, refresh: flags.refresh })
+    await plugins({
+      cwd: flags.cwd,
+      userConfig: this.userConfig,
+      refresh: flags.refresh,
+      config: this.config,
+    })
   }
 }

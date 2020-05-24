@@ -33,7 +33,7 @@ export default class Projects extends BaseCommand {
     const { args, flags } = this.parse(Projects)
 
     await projects(
-      { cwd: flags.cwd, dryRun: false, userConfig: this.userConfig },
+      { cwd: flags.cwd, dryRun: false, userConfig: this.userConfig, config: this.config },
       args.projectName,
       args.target,
     )
