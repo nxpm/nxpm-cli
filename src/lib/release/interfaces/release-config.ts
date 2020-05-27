@@ -6,5 +6,7 @@ export interface ReleaseConfig extends BaseConfig {
   dryRun: boolean
   allowIvy: boolean
   fix: boolean
+  local?: boolean
+  localUrl?: string
   version: string
 }
