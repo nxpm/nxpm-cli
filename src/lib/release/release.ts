@@ -46,21 +46,25 @@ export const release = async (_config: ReleaseConfig): Promise<void> => {
     log('DRY-RUN', 'Skipping GitHub release')
   }
 
-  const publishResult = runNpmPublish({
-    dryRun: config.dryRun,
-    local: config.local,
-    localUrl: config.localUrl,
-    pkgFiles: packages.pkgFiles,
-    version: config.version,
-    tag: config.npmTag,
-  })
+  if (!config.dryRun) {
+    const publishResult = runNpmPublish({
+      dryRun: config.dryRun,
+      local: config.local,
+      localUrl: config.localUrl,
+      pkgFiles: packages.pkgFiles,
+      version: config.version,
+      tag: config.npmTag,
+    })
 
-  if (!publishResult) {
-    error("Something went wrong running 'npm publish' :( ")
-    process.exit(1)
-  }
+    if (!publishResult) {
+      error("Something went wrong running 'npm publish' :( ")
+      process.exit(1)
+    }
 
-  if (publishResult) {
-    log(`SUCCESS`, `It looks like we're all done here! :)`)
+    if (publishResult) {
+      log(`SUCCESS`, `It looks like we're all done here! :)`)
+    }
+  } else {
+    log('DRY-RUN', 'Skipping npm publish')
   }
 }

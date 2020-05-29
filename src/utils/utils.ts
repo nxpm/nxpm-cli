@@ -71,6 +71,9 @@ export const validatePackageJsonName = (
   root: string,
   { pkgJson, name }: { pkgJson: any; name: string },
 ): boolean => {
+  if (pkgJson?.nxpm?.allowPackageName) {
+    return true
+  }
   // Verify that the name in package.json is correct
   if (pkgJson.name !== name) {
     log(
@@ -153,6 +156,7 @@ export const validatePackageJson = (
     }
   }
 
+  // Verify License
   if (!validatePackageJsonLicense(root, { pkgJson, license: workspacePkgJson.license })) {
     if (fix) {
       hasErrors = !updatePackageJsonLicense(root, { license: workspacePkgJson.license })
@@ -161,6 +165,7 @@ export const validatePackageJson = (
     }
   }
 
+  // Verify name
   if (!validatePackageJsonName(root, { pkgJson, name })) {
     if (fix) {
       hasErrors = !updatePackageJsonName(root, { name })
@@ -170,7 +175,7 @@ export const validatePackageJson = (
   }
 
   if (!hasErrors) {
-    log('VALIDATE', `Package ${yellowBright(name)} is valid.`)
+    log('VALIDATE', `Package ${yellowBright(pkgJson.name)} is valid.`)
   }
   return !hasErrors
 }
