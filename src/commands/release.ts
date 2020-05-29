@@ -17,14 +17,22 @@ export default class Release extends BaseCommand {
       description: 'Current working directory',
       default: process.cwd(),
     }),
+    'dry-run': flags.boolean({ char: 'd', description: "Dry run, don't make permanent changes" }),
     help: flags.help({ char: 'h' }),
     'allow-ivy': flags.boolean({
       char: 'i',
       description: 'Allow publishing Angular packages built for Ivy',
       default: true,
     }),
-    'dry-run': flags.boolean({ char: 'd', description: "Dry run, don't make permanent changes" }),
     fix: flags.boolean({ char: 'f', description: 'Automatically fix known issues' }),
+    local: flags.boolean({
+      description: 'Release package to local registry',
+      default: false,
+    }),
+    localUrl: flags.string({
+      description: 'URL to local registry',
+      default: 'http://localhost:4873/',
+    }),
   }
 
   static args = [
@@ -68,6 +76,8 @@ export default class Release extends BaseCommand {
       dryRun: flags['dry-run'],
       fix: flags.fix,
       version: args.version,
+      local: flags.local,
+      localUrl: flags.localUrl,
     })
   }
 }

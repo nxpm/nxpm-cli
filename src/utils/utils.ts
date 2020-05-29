@@ -71,6 +71,9 @@ export const validatePackageJsonName = (
   root: string,
   { pkgJson, name }: { pkgJson: any; name: string },
 ): boolean => {
+  if (pkgJson?.nxpm?.allowPackageName) {
+    return true
+  }
   // Verify that the name in package.json is correct
   if (pkgJson.name !== name) {
     log(
@@ -153,6 +156,7 @@ export const validatePackageJson = (
     }
   }
 
+  // Verify License
   if (!validatePackageJsonLicense(root, { pkgJson, license: workspacePkgJson.license })) {
     if (fix) {
       hasErrors = !updatePackageJsonLicense(root, { license: workspacePkgJson.license })
@@ -161,6 +165,7 @@ export const validatePackageJson = (
     }
   }
 
+  // Verify name
   if (!validatePackageJsonName(root, { pkgJson, name })) {
     if (fix) {
       hasErrors = !updatePackageJsonName(root, { name })
@@ -170,7 +175,7 @@ export const validatePackageJson = (
   }
 
   if (!hasErrors) {
-    log('VALIDATE', `Package ${yellowBright(name)} is valid.`)
+    log('VALIDATE', `Package ${yellowBright(pkgJson.name)} is valid.`)
   }
   return !hasErrors
 }
@@ -179,9 +184,20 @@ export interface NpmPublishOptions {
   dryRun: boolean
   pkgFiles: string[]
   version: string
+  local?: boolean
+  localUrl?: string
   tag: 'next' | 'latest'
 }
-export const runNpmPublish = ({ dryRun, pkgFiles, version, tag }: NpmPublishOptions): boolean => {
+export const runNpmPublish = ({
+  dryRun,
+  pkgFiles,
+  version,
+  tag,
+  local,
+  localUrl,
+}: NpmPublishOptions): boolean => {
+  const registryUrl = local ? localUrl : 'https://registry.npmjs.org/'
+
   let hasErrors = false
   for (const pkgFile of pkgFiles) {
     const filePath = relative(process.cwd(), pkgFile)
@@ -190,7 +206,7 @@ export const runNpmPublish = ({ dryRun, pkgFiles, version, tag }: NpmPublishOpti
       const baseDir = dirname(filePath)
       const pkgInfo = readJSONSync(join(process.cwd(), pkgFile))
       const name = `${pkgInfo.name}@${version}`
-      const command = `npm publish --tag ${tag} --access public --registry=https://registry.npmjs.org/`
+      const command = `npm publish --tag ${tag} --access public --registry=${registryUrl}`
       if (!dryRun) {
         try {
           exec(command, { cwd: baseDir })

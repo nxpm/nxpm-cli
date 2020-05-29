@@ -29,32 +29,42 @@ export const release = async (_config: ReleaseConfig): Promise<void> => {
   log(`RUN`, `Fetching git info release`)
   exec('git fetch --all', { stdio: 'pipe' })
 
-  const releaseResult = await runReleaseIt({
-    dryRun: config.dryRun,
-    pkgFiles: [join(config.cwd, 'package.json'), ...packages.pkgFiles],
-    preRelease: config.preRelease,
-    version: config.version,
-    ci: config.ci,
-  })
+  if (!config.local) {
+    const releaseResult = await runReleaseIt({
+      dryRun: config.dryRun,
+      pkgFiles: [join(config.cwd, 'package.json'), ...packages.pkgFiles],
+      preRelease: config.preRelease,
+      version: config.version,
+      ci: config.ci,
+    })
 
-  if (!releaseResult) {
-    error("Something went wrong running 'release-it' :( ")
-    process.exit(1)
+    if (!releaseResult) {
+      error("Something went wrong running 'release-it' :( ")
+      process.exit(1)
+    }
+  } else {
+    log('DRY-RUN', 'Skipping GitHub release')
   }
 
-  const publishResult = runNpmPublish({
-    dryRun: config.dryRun,
-    pkgFiles: packages.pkgFiles,
-    version: config.version,
-    tag: config.npmTag,
-  })
+  if (!config.dryRun) {
+    const publishResult = runNpmPublish({
+      dryRun: config.dryRun,
+      local: config.local,
+      localUrl: config.localUrl,
+      pkgFiles: packages.pkgFiles,
+      version: config.version,
+      tag: config.npmTag,
+    })
 
-  if (!publishResult) {
-    error("Something went wrong running 'npm publish' :( ")
-    process.exit(1)
-  }
+    if (!publishResult) {
+      error("Something went wrong running 'npm publish' :( ")
+      process.exit(1)
+    }
 
-  if (releaseResult || publishResult) {
-    log(`SUCCESS`, `It looks like we're all done here! :)`)
+    if (publishResult) {
+      log(`SUCCESS`, `It looks like we're all done here! :)`)
+    }
+  } else {
+    log('DRY-RUN', 'Skipping npm publish')
   }
 }
