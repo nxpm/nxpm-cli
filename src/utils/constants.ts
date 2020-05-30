@@ -1,8 +1,9 @@
 // These are the builders that the CLI knows can produce 'publishable' libs
 export const NX_PACKAGE_BUILDERS = [
   '@nrwl/angular:package',
+  '@nrwl/nest:package',
   '@nrwl/node:package',
-  '@nrwl/nest:package,',
+  '@nrwl/workspace:run-commands',
 ]
 export const RELEASE_IT_PACKAGE_VERSION = '0.0.0-development'
 export const NXPM_PLUGINS_CACHE = 'nxpm-plugins.json'
