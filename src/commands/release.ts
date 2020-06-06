@@ -8,6 +8,7 @@ export default class Release extends BaseCommand {
   static description = 'Release publishable packages in an Nx Workspace'
 
   static flags = {
+    build: flags.boolean({ char: 'b', description: 'Build libraries after versioning' }),
     ci: flags.boolean({
       description: 'CI mode (fully automatic release)',
       default: false,
@@ -69,9 +70,10 @@ export default class Release extends BaseCommand {
     }
 
     await release({
-      config: this.config,
       allowIvy: flags['allow-ivy'],
+      build: flags.build,
       ci: flags.ci,
+      config: this.config,
       cwd: flags.cwd,
       dryRun: flags['dry-run'],
       fix: flags.fix,

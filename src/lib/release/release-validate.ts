@@ -3,6 +3,7 @@ import { readJSONSync } from 'fs-extra'
 import { join, relative, resolve } from 'path'
 import {
   error,
+  exec,
   getWorkspaceInfo,
   gray,
   log,
@@ -100,6 +101,7 @@ export function validatePackages(
     return !validatePackageJson(lib.root, {
       dryRun: config.dryRun,
       fix: config.fix,
+      version: config.version,
       name,
       workspacePkgJson: config.package,
     })
@@ -135,6 +137,10 @@ export function validatePackages(
       throw new Error(`Can't find pkg file`)
     })
     .map((file) => join(file, 'package.json'))
+
+  if (config.build) {
+    exec(`yarn nx run-many --target build --all`)
+  }
 
   // Here we check of the expected packages are built
   const foundPkgFiles = pkgFiles.map((pkgFile) => {

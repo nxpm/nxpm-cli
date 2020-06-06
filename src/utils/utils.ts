@@ -135,8 +135,9 @@ export const validatePackageJson = (
     dryRun = false,
     fix,
     name,
+    version,
     workspacePkgJson,
-  }: { dryRun: boolean; fix: boolean; name: string; workspacePkgJson: any },
+  }: { dryRun: boolean; fix: boolean; name: string; version: string; workspacePkgJson: any },
 ): boolean => {
   // Read the libs package.json
   const pkgJson = getPackageJson(root)
@@ -148,9 +149,9 @@ export const validatePackageJson = (
   let hasErrors = false
 
   // Verify that the version is set correctly
-  if (!validatePackageJsonVersion(root, { pkgJson, version: RELEASE_IT_PACKAGE_VERSION })) {
+  if (!validatePackageJsonVersion(root, { pkgJson, version })) {
     if (fix) {
-      hasErrors = !updatePackageJsonVersion(root, { version: RELEASE_IT_PACKAGE_VERSION })
+      hasErrors = !updatePackageJsonVersion(root, { version })
     } else {
       hasErrors = true
     }

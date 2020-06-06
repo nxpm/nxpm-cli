@@ -1,6 +1,8 @@
 import { ReleaseConfig } from './release-config'
 
 export interface ValidatedConfig extends ReleaseConfig {
+  // Trigger the build
+  build: boolean
   // NPM Scope defined in nx.json
   npmScope: string
   // Tag we aim to publish
