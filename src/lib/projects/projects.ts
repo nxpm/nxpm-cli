@@ -139,11 +139,11 @@ const selectProjectAction = async (
   }: { target?: string; params: { [key: string]: any }; projectName: string; project: any },
 ): Promise<{ action: string; payload: any } | false> => {
   const answers: any = { projectName }
-  const architects = Object.keys(project?.architect).sort()
+  const targets = Object.keys(project?.targets ?? project?.architect).sort()
   const schematics = ['@nrwl/workspace:move', '@nrwl/workspace:remove']
   const projectOptions: any[] = [
     new inquirer.Separator('Builders'),
-    ...architects,
+    ...targets,
     new inquirer.Separator('Schematics'),
     ...schematics,
   ]
@@ -159,7 +159,7 @@ const selectProjectAction = async (
     target = found
   }
 
-  if (architects.includes(target)) {
+  if (targets.includes(target)) {
     const architectParams = get(params, `${target}.params`, '')
     return {
       action: 'exec',
