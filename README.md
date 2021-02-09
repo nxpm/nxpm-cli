@@ -44,7 +44,7 @@ $ npm install -g nxpm
 $ nxpm COMMAND
 running command...
 $ nxpm (-v|--version|version)
-nxpm/1.15.0 darwin-x64 node-v12.16.2
+nxpm/1.16.0 darwin-x64 node-v14.15.4
 $ nxpm --help [COMMAND]
 USAGE
   $ nxpm COMMAND
@@ -83,7 +83,7 @@ OPTIONS
   -h, --help    show CLI help
 ```
 
-_See code: [src/commands/config/delete.ts](https://github.com/nxpm/nxpm-cli/blob/v1.15.0/src/commands/config/delete.ts)_
+_See code: [src/commands/config/delete.ts](https://github.com/nxpm/nxpm-cli/blob/v1.16.0/src/commands/config/delete.ts)_
 
 ## `nxpm config:edit`
 
@@ -98,7 +98,7 @@ OPTIONS
   -h, --help    show CLI help
 ```
 
-_See code: [src/commands/config/edit.ts](https://github.com/nxpm/nxpm-cli/blob/v1.15.0/src/commands/config/edit.ts)_
+_See code: [src/commands/config/edit.ts](https://github.com/nxpm/nxpm-cli/blob/v1.16.0/src/commands/config/edit.ts)_
 
 ## `nxpm config:get KEY`
 
@@ -113,7 +113,7 @@ OPTIONS
   -h, --help    show CLI help
 ```
 
-_See code: [src/commands/config/get.ts](https://github.com/nxpm/nxpm-cli/blob/v1.15.0/src/commands/config/get.ts)_
+_See code: [src/commands/config/get.ts](https://github.com/nxpm/nxpm-cli/blob/v1.16.0/src/commands/config/get.ts)_
 
 ## `nxpm config:set KEY VALUE`
 
@@ -128,7 +128,7 @@ OPTIONS
   -h, --help    show CLI help
 ```
 
-_See code: [src/commands/config/set.ts](https://github.com/nxpm/nxpm-cli/blob/v1.15.0/src/commands/config/set.ts)_
+_See code: [src/commands/config/set.ts](https://github.com/nxpm/nxpm-cli/blob/v1.16.0/src/commands/config/set.ts)_
 
 ## `nxpm help [COMMAND]`
 
@@ -156,7 +156,7 @@ USAGE
   $ nxpm plugins
 
 OPTIONS
-  -c, --cwd=cwd  [default: /Users/beeman/nxpm-cli] Current working directory
+  -c, --cwd=cwd  [default: /Users/beeman/oss/nxpm-cli] Current working directory
   -h, --help     show CLI help
   -r, --refresh  Refresh the list of plugins
 
@@ -164,7 +164,7 @@ ALIASES
   $ nxpm pl
 ```
 
-_See code: [src/commands/plugins.ts](https://github.com/nxpm/nxpm-cli/blob/v1.15.0/src/commands/plugins.ts)_
+_See code: [src/commands/plugins.ts](https://github.com/nxpm/nxpm-cli/blob/v1.16.0/src/commands/plugins.ts)_
 
 ## `nxpm projects [PROJECTNAME] [TARGET]`
 
@@ -179,14 +179,14 @@ ARGUMENTS
   TARGET       The target to run (build, serve, test, etc)
 
 OPTIONS
-  -c, --cwd=cwd  [default: /Users/beeman/nxpm-cli] Current working directory
+  -c, --cwd=cwd  [default: /Users/beeman/oss/nxpm-cli] Current working directory
   -h, --help     show CLI help
 
 ALIASES
   $ nxpm p
 ```
 
-_See code: [src/commands/projects.ts](https://github.com/nxpm/nxpm-cli/blob/v1.15.0/src/commands/projects.ts)_
+_See code: [src/commands/projects.ts](https://github.com/nxpm/nxpm-cli/blob/v1.16.0/src/commands/projects.ts)_
 
 ## `nxpm registry:disable`
 
@@ -197,7 +197,7 @@ USAGE
   $ nxpm registry:disable
 ```
 
-_See code: [src/commands/registry/disable.ts](https://github.com/nxpm/nxpm-cli/blob/v1.15.0/src/commands/registry/disable.ts)_
+_See code: [src/commands/registry/disable.ts](https://github.com/nxpm/nxpm-cli/blob/v1.16.0/src/commands/registry/disable.ts)_
 
 ## `nxpm registry:enable`
 
@@ -208,7 +208,7 @@ USAGE
   $ nxpm registry:enable
 ```
 
-_See code: [src/commands/registry/enable.ts](https://github.com/nxpm/nxpm-cli/blob/v1.15.0/src/commands/registry/enable.ts)_
+_See code: [src/commands/registry/enable.ts](https://github.com/nxpm/nxpm-cli/blob/v1.16.0/src/commands/registry/enable.ts)_
 
 ## `nxpm registry:start`
 
@@ -219,7 +219,7 @@ USAGE
   $ nxpm registry:start
 ```
 
-_See code: [src/commands/registry/start.ts](https://github.com/nxpm/nxpm-cli/blob/v1.15.0/src/commands/registry/start.ts)_
+_See code: [src/commands/registry/start.ts](https://github.com/nxpm/nxpm-cli/blob/v1.16.0/src/commands/registry/start.ts)_
 
 ## `nxpm registry:status`
 
@@ -230,7 +230,7 @@ USAGE
   $ nxpm registry:status
 ```
 
-_See code: [src/commands/registry/status.ts](https://github.com/nxpm/nxpm-cli/blob/v1.15.0/src/commands/registry/status.ts)_
+_See code: [src/commands/registry/status.ts](https://github.com/nxpm/nxpm-cli/blob/v1.16.0/src/commands/registry/status.ts)_
 
 ## `nxpm release [VERSION]`
 
@@ -245,7 +245,7 @@ ARGUMENTS
 
 OPTIONS
   -b, --build          Build libraries after versioning
-  -c, --cwd=cwd        [default: /Users/beeman/nxpm-cli] Current working directory
+  -c, --cwd=cwd        [default: /Users/beeman/oss/nxpm-cli] Current working directory
   -d, --dry-run        Dry run, don't make permanent changes
   -f, --fix            Automatically fix known issues
   -h, --help           show CLI help
@@ -255,7 +255,7 @@ OPTIONS
   --localUrl=localUrl  [default: http://localhost:4873/] URL to local registry
 ```
 
-_See code: [src/commands/release.ts](https://github.com/nxpm/nxpm-cli/blob/v1.15.0/src/commands/release.ts)_
+_See code: [src/commands/release.ts](https://github.com/nxpm/nxpm-cli/blob/v1.16.0/src/commands/release.ts)_
 
 ## `nxpm sandbox [SANDBOXID] [ACTION]`
 
@@ -270,7 +270,7 @@ ARGUMENTS
   ACTION     Action to perform on sandbox
 
 OPTIONS
-  -c, --cwd=cwd        [default: /Users/beeman/nxpm-cli] Current working directory
+  -c, --cwd=cwd        [default: /Users/beeman/oss/nxpm-cli] Current working directory
   -h, --help           show CLI help
   -r, --refresh        Refresh the list of plugins
   --port-api=port-api  [default: 3000] Port to open for the API app
@@ -278,7 +278,7 @@ OPTIONS
   --ports=ports        Comma-separated list of additional ports to open (eg: 8080, 10080:80)
 ```
 
-_See code: [src/commands/sandbox.ts](https://github.com/nxpm/nxpm-cli/blob/v1.15.0/src/commands/sandbox.ts)_
+_See code: [src/commands/sandbox.ts](https://github.com/nxpm/nxpm-cli/blob/v1.16.0/src/commands/sandbox.ts)_
 
 ## `nxpm sandbox:pull`
 
@@ -295,5 +295,5 @@ OPTIONS
   -r, --refresh  Refresh the list of sandboxes
 ```
 
-_See code: [src/commands/sandbox/pull.ts](https://github.com/nxpm/nxpm-cli/blob/v1.15.0/src/commands/sandbox/pull.ts)_
+_See code: [src/commands/sandbox/pull.ts](https://github.com/nxpm/nxpm-cli/blob/v1.16.0/src/commands/sandbox/pull.ts)_
 <!-- commandsstop -->
