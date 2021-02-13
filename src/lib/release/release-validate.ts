@@ -70,11 +70,11 @@ export function validateWorkspace(config: ValidatedConfig): ValidatedWorkspace |
   const packages = libs
     .map((lib) => ({
       lib,
-      architect: Object.keys(lib.architect)
-        .map((id) => ({ id, ...lib.architect[id] }))
+      architect: Object.keys(lib.architect || lib.targets)
+        .map((id) => ({ id, ...(lib.architect ? lib.architect[id] : lib.targets[id]) }))
         // We only include architects that are called 'build'
         .filter((architect) => architect.id === 'build')
-        .find(({ builder }) => NX_PACKAGE_BUILDERS.includes(builder)),
+        .find(({ builder, executor }) => NX_PACKAGE_BUILDERS.includes(builder || executor)),
     }))
     // Only release packages which turned out to have at least one 'publishable' architect
     .filter((lib) => !!lib.architect)
@@ -82,7 +82,9 @@ export function validateWorkspace(config: ValidatedConfig): ValidatedWorkspace |
   for (const pkg of packages) {
     log(
       `VALIDATE`,
-      `Found builder for ${yellowBright(pkg.lib.id)}: ${gray(pkg.architect.builder)} `,
+      `Found builder for ${yellowBright(pkg.lib.id)}: ${gray(
+        pkg.architect.builder || pkg.architect.executor,
+      )} `,
     )
   }
 
