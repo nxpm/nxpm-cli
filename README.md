@@ -1,5 +1,9 @@
 # nxpm
 
+## Looking for the full-stack generator?
+
+### ➡️ Check here [github.com/nxpm/stack](https://github.com/nxpm/stack)
+
 <p align="center"><img src="https://avatars0.githubusercontent.com/u/65322676?s=400&u=4a36f7a4110a16d674cba9610dae5d5e2966ab3a&v=4"></p>
 
 <p align="center">CLI to make the world-class <a href="https://github.com/nrwl/nx">nx workspace</a> even more amazing!</p>
@@ -13,9 +17,10 @@
 [![License](https://img.shields.io/npm/l/nxpm.svg)](https://github.com/nxpm/nxpm/blob/master/package.json)
 
 <!-- toc -->
-* [nxpm](#nxpm)
-* [Usage](#usage)
-* [Commands](#commands)
+
+- [nxpm](#nxpm)
+- [Usage](#usage)
+- [Commands](#commands)
 <!-- tocstop -->
 
 ### nxpm plugins
@@ -39,6 +44,7 @@ Quickly spin up Docker based sandboxes with various NX presets installed.
 # Usage
 
 <!-- usage -->
+
 ```sh-session
 $ npm install -g nxpm
 $ nxpm COMMAND
@@ -50,25 +56,27 @@ USAGE
   $ nxpm COMMAND
 ...
 ```
+
 <!-- usagestop -->
 
 # Commands
 
 <!-- commands -->
-* [`nxpm config:delete`](#nxpm-configdelete)
-* [`nxpm config:edit`](#nxpm-configedit)
-* [`nxpm config:get KEY`](#nxpm-configget-key)
-* [`nxpm config:set KEY VALUE`](#nxpm-configset-key-value)
-* [`nxpm help [COMMAND]`](#nxpm-help-command)
-* [`nxpm plugins`](#nxpm-plugins)
-* [`nxpm projects [PROJECTNAME] [TARGET]`](#nxpm-projects-projectname-target)
-* [`nxpm registry:disable`](#nxpm-registrydisable)
-* [`nxpm registry:enable`](#nxpm-registryenable)
-* [`nxpm registry:start`](#nxpm-registrystart)
-* [`nxpm registry:status`](#nxpm-registrystatus)
-* [`nxpm release [VERSION]`](#nxpm-release-version)
-* [`nxpm sandbox [SANDBOXID] [ACTION]`](#nxpm-sandbox-sandboxid-action)
-* [`nxpm sandbox:pull`](#nxpm-sandboxpull)
+
+- [`nxpm config:delete`](#nxpm-configdelete)
+- [`nxpm config:edit`](#nxpm-configedit)
+- [`nxpm config:get KEY`](#nxpm-configget-key)
+- [`nxpm config:set KEY VALUE`](#nxpm-configset-key-value)
+- [`nxpm help [COMMAND]`](#nxpm-help-command)
+- [`nxpm plugins`](#nxpm-plugins)
+- [`nxpm projects [PROJECTNAME] [TARGET]`](#nxpm-projects-projectname-target)
+- [`nxpm registry:disable`](#nxpm-registrydisable)
+- [`nxpm registry:enable`](#nxpm-registryenable)
+- [`nxpm registry:start`](#nxpm-registrystart)
+- [`nxpm registry:status`](#nxpm-registrystatus)
+- [`nxpm release [VERSION]`](#nxpm-release-version)
+- [`nxpm sandbox [SANDBOXID] [ACTION]`](#nxpm-sandbox-sandboxid-action)
+- [`nxpm sandbox:pull`](#nxpm-sandboxpull)
 
 ## `nxpm config:delete`
 
@@ -296,4 +304,5 @@ OPTIONS
 ```
 
 _See code: [src/commands/sandbox/pull.ts](https://github.com/nxpm/nxpm-cli/blob/v1.18.0/src/commands/sandbox/pull.ts)_
+
 <!-- commandsstop -->
