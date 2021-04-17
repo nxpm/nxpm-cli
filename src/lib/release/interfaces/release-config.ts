@@ -10,4 +10,5 @@ export interface ReleaseConfig extends BaseConfig {
   local?: boolean
   localUrl?: string
   version: string
+  prettify?: boolean
 }

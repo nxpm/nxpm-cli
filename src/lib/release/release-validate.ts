@@ -106,6 +106,7 @@ export function validatePackages(
       version: config.version,
       name,
       workspacePkgJson: config.package,
+      prettify: config.prettify,
     })
   })
 

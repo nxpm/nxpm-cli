@@ -36,6 +36,7 @@
     "@types/mocha": "^7.0.2",
     "@types/node": "^14.0.1",
     "@types/node-fetch": "^2.5.7",
+    "@types/prettier": "^2.2.3",
     "@types/tmp": "^0.2.0",
     "chai": "^4.2.0",
     "eslint": "^5.13",
@@ -46,8 +47,12 @@
     "lint-staged": "^10.2.2",
     "mocha": "^7.1.2",
     "nyc": "^15.0.1",
+    "prettier": "^2.2.1",
     "ts-node": "^8.10.1",
     "typescript": "3.8.3"
+  },
+  "optionalDependencies": {
+    "prettier": "^2.0.0"
   },
   "engines": {
     "node": ">=8.0.0"

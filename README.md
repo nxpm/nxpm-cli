@@ -261,6 +261,7 @@ OPTIONS
   --ci                 CI mode (fully automatic release)
   --local              Release package to local registry
   --localUrl=localUrl  [default: http://localhost:4873/] URL to local registry
+  --prettify           Use prettier to format modified files when using --fix
 ```
 
 _See code: [src/commands/release.ts](https://github.com/nxpm/nxpm-cli/blob/v1.18.0/src/commands/release.ts)_

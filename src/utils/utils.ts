@@ -5,6 +5,7 @@ import { mkdirpSync, readJSONSync, writeFileSync, writeJSONSync } from 'fs-extra
 import * as inquirer from 'inquirer'
 import fetch from 'node-fetch'
 import { dirname, join, relative } from 'path'
+import * as prettier from 'prettier'
 
 import * as releaseIt from 'release-it'
 import { BACK_OPTION, EXIT_OPTION } from '../lib/projects/projects'
@@ -29,19 +30,29 @@ export const getPackageJson = (root: string): { [key: string]: any } | null => {
   return readJSONSync(pkgPath)
 }
 
-export const updatePackageJson = (root: string, obj: { [key: string]: any }): any => {
+export const writeJsonToFile = (path: string, jsonData: any, prettify?: boolean) => {
+  let formattedJson = JSON.stringify(jsonData, undefined, 2) + '\n'
+  if (prettify) {
+    const prettierConfig = prettier.resolveConfig.sync(path)
+    formattedJson = prettier.format(formattedJson, { ...prettierConfig, parser: 'json' })
+  }
+  writeFileSync(path, formattedJson)
+}
+
+export const updatePackageJson = (
+  root: string,
+  obj: { [key: string]: any },
+  prettify?: boolean,
+): any => {
   const pkgPath = join(process.cwd(), root, 'package.json')
   const pkgJson = getPackageJson(root)
-  writeFileSync(
+  writeJsonToFile(
     pkgPath,
-    JSON.stringify(
-      {
-        ...pkgJson,
-        ...obj,
-      },
-      null,
-      2,
-    ) + '\n',
+    {
+      ...pkgJson,
+      ...obj,
+    },
+    prettify,
   )
   return getPackageJson(root)
 }
@@ -105,8 +116,9 @@ export const validatePackageJsonVersion = (
 export const updatePackageJsonLicense = (
   root: string,
   { license }: { license: string },
+  prettify?: boolean,
 ): boolean => {
-  updatePackageJson(root, { license })
+  updatePackageJson(root, { license }, prettify)
 
   log(greenBright('FIXED'), `License set to ${license} in ${join(root, 'package.json')}`)
   return validatePackageJsonLicense(root, { pkgJson: getPackageJson(root), license })
@@ -115,15 +127,20 @@ export const updatePackageJsonLicense = (
 export const updatePackageJsonVersion = (
   root: string,
   { version }: { version: string },
+  prettify?: boolean,
 ): boolean => {
-  updatePackageJson(root, { version })
+  updatePackageJson(root, { version }, prettify)
 
   log(greenBright('FIXED'), `Version set to "${version}" in ${join(root, 'package.json')}`)
   return validatePackageJsonVersion(root, { pkgJson: getPackageJson(root), version })
 }
 
-export const updatePackageJsonName = (root: string, { name }: { name: string }): boolean => {
-  updatePackageJson(root, { name })
+export const updatePackageJsonName = (
+  root: string,
+  { name }: { name: string },
+  prettify?: boolean,
+): boolean => {
+  updatePackageJson(root, { name }, prettify)
 
   log(greenBright('FIXED'), `Name set to "${name}" in ${join(root, 'package.json')}`)
   return validatePackageJsonName(root, { pkgJson: getPackageJson(root), name })
@@ -137,7 +154,15 @@ export const validatePackageJson = (
     name,
     version,
     workspacePkgJson,
-  }: { dryRun: boolean; fix: boolean; name: string; version: string; workspacePkgJson: any },
+    prettify,
+  }: {
+    dryRun: boolean
+    fix: boolean
+    name: string
+    version: string
+    workspacePkgJson: any
+    prettify?: boolean
+  },
 ): boolean => {
   // Read the libs package.json
   const pkgJson = getPackageJson(root)
@@ -151,7 +176,7 @@ export const validatePackageJson = (
   // Verify that the version is set correctly
   if (!validatePackageJsonVersion(root, { pkgJson, version })) {
     if (fix) {
-      hasErrors = !updatePackageJsonVersion(root, { version })
+      hasErrors = !updatePackageJsonVersion(root, { version }, prettify)
     } else {
       hasErrors = true
     }
@@ -160,7 +185,7 @@ export const validatePackageJson = (
   // Verify License
   if (!validatePackageJsonLicense(root, { pkgJson, license: workspacePkgJson.license })) {
     if (fix) {
-      hasErrors = !updatePackageJsonLicense(root, { license: workspacePkgJson.license })
+      hasErrors = !updatePackageJsonLicense(root, { license: workspacePkgJson.license }, prettify)
     } else {
       hasErrors = true
     }
@@ -169,7 +194,7 @@ export const validatePackageJson = (
   // Verify name
   if (!validatePackageJsonName(root, { pkgJson, name })) {
     if (fix) {
-      hasErrors = !updatePackageJsonName(root, { name })
+      hasErrors = !updatePackageJsonName(root, { name }, prettify)
     } else {
       hasErrors = true
     }

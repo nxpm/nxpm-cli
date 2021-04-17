@@ -34,6 +34,10 @@ export default class Release extends BaseCommand {
       description: 'URL to local registry',
       default: 'http://localhost:4873/',
     }),
+    prettify: flags.boolean({
+      description: 'Use prettier to format modified files when using --fix',
+      default: false,
+    }),
   }
 
   static args = [
@@ -80,6 +84,7 @@ export default class Release extends BaseCommand {
       version: args.version,
       local: flags.local,
       localUrl: flags.localUrl,
+      prettify: flags.prettify,
     })
   }
 }
