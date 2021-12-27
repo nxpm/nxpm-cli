@@ -11,7 +11,7 @@ export interface SchematicDefaults {
 }
 
 export const files: { [path: string]: string[] } = {}
-export let fileContents: { [path: string]: any } = {}
+export const fileContents: { [path: string]: any } = {}
 
 const IMPORTANT_FIELD_NAMES = ['name', 'project', 'module', 'watch', 'style', 'directory', 'port']
 const IMPORTANT_FIELDS_SET = new Set(IMPORTANT_FIELD_NAMES)
@@ -90,11 +90,10 @@ export function readAndCacheJsonFile(
       path: fullFilePath,
       json: fileContents[fullFilePath],
     }
-  } else {
-    return {
-      path: fullFilePath,
-      json: {},
-    }
+  }
+  return {
+    path: fullFilePath,
+    json: {},
   }
 }
 

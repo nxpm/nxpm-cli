@@ -26,10 +26,12 @@ export const release = async (_config: ReleaseConfig): Promise<void> => {
     process.exit(1)
   }
 
-  log(`RUN`, `Fetching git info release`)
+  log('RUN', 'Fetching git info release')
   exec('git fetch --all', { stdio: 'pipe' })
 
-  if (!config.local) {
+  if (config.local) {
+    log('DRY-RUN', 'Skipping GitHub release')
+  } else {
     const releaseResult = await runReleaseIt({
       dryRun: config.dryRun,
       pkgFiles: [join(config.cwd, 'package.json'), ...packages.pkgFiles],
@@ -42,11 +44,11 @@ export const release = async (_config: ReleaseConfig): Promise<void> => {
       error("Something went wrong running 'release-it' :( ")
       process.exit(1)
     }
-  } else {
-    log('DRY-RUN', 'Skipping GitHub release')
   }
 
-  if (!config.dryRun) {
+  if (config.dryRun) {
+    log('DRY-RUN', 'Skipping npm publish')
+  } else {
     const publishResult = runNpmPublish({
       dryRun: config.dryRun,
       local: config.local,
@@ -62,9 +64,7 @@ export const release = async (_config: ReleaseConfig): Promise<void> => {
     }
 
     if (publishResult) {
-      log(`SUCCESS`, `It looks like we're all done here! :)`)
+      log('SUCCESS', "It looks like we're all done here! :)")
     }
-  } else {
-    log('DRY-RUN', 'Skipping npm publish')
   }
 }

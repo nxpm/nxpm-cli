@@ -9,8 +9,7 @@ import { dirname, join, relative } from 'path'
 import * as releaseIt from 'release-it'
 import { BACK_OPTION, EXIT_OPTION } from '../lib/projects/projects'
 
-import { RELEASE_IT_PACKAGE_VERSION } from './constants'
-import { error, gray, greenBright, log, red, yellowBright } from './logging'
+import { gray, greenBright, log, red, yellowBright } from './logging'
 
 export const exec = (command: string, options?: ExecSyncOptions): Buffer =>
   execSync(command, { stdio: [0, 1, 2], ...options })
@@ -132,7 +131,6 @@ export const updatePackageJsonName = (root: string, { name }: { name: string }):
 export const validatePackageJson = (
   root: string,
   {
-    dryRun = false,
     fix,
     name,
     version,
@@ -208,16 +206,16 @@ export const runNpmPublish = ({
       const pkgInfo = readJSONSync(join(process.cwd(), pkgFile))
       const name = `${pkgInfo.name}@${version}`
       const command = `npm publish --tag ${tag} --access public --registry=${registryUrl}`
-      if (!dryRun) {
+      if (dryRun) {
+        log('[dry-run]', 'Skipping command', gray(command))
+      } else {
         try {
           exec(command, { cwd: baseDir })
-        } catch (e) {
+        } catch (error) {
           error(`Failed to publish ${name} to npm:`)
-          console.log(e)
+          console.log(error)
           hasErrors = true
         }
-      } else {
-        log(`[dry-run]`, 'Skipping command', gray(command))
       }
     }
   }
@@ -273,8 +271,8 @@ export const runReleaseIt = ({
     .then(() => {
       return true
     })
-    .catch((err: any) => {
-      error(err.message)
+    .catch((error: any) => {
+      error(error.message)
       return false
     })
 }

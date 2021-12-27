@@ -1,3 +1,5 @@
+import { getProjects } from '@nrwl/devkit'
+import { FsTree } from '@nrwl/tao/src/shared/tree'
 import { existsSync, writeFileSync } from 'fs'
 import { readJSONSync } from 'fs-extra'
 import { join, relative, resolve } from 'path'
@@ -45,7 +47,7 @@ export function validateConfig(config: ReleaseConfig): ValidatedConfig | false {
   }
 
   log(
-    `VALIDATE`,
+    'VALIDATE',
     `Using ${yellowBright(validated.workspaceType)} workspace: ${gray(
       relative(config.cwd, validated.workspacePath),
     )}`,
@@ -54,38 +56,34 @@ export function validateConfig(config: ReleaseConfig): ValidatedConfig | false {
 }
 
 export function validateWorkspace(config: ValidatedConfig): ValidatedWorkspace | false {
-  const { projects } = config.workspace
+  const host = new FsTree(process.cwd(), true)
+  const projects = getProjects(host)
 
-  const libs = Object.keys(projects)
-    .map((id) => ({ id, ...projects[id] }))
+  const libs = [...projects.keys()]
+    .map((id) => ({ id, ...projects.get(id) }))
     .filter((project) => project.projectType === 'library')
 
   if (!libs.length) {
     throw new Error(`No libraries found in nx workspace ${config.workspacePath}`)
   }
 
-  log(`VALIDATE`, `Found ${yellowBright(libs.length)} libraries:`)
+  log('VALIDATE', `Found ${yellowBright(libs.length)} libraries:`)
 
-  // Find libraries that have a package builder
+  // Find libraries that have a package executor
   const packages = libs
     .map((lib) => ({
       lib,
-      architect: Object.keys(lib.architect || lib.targets)
-        .map((id) => ({ id, ...(lib.architect ? lib.architect[id] : lib.targets[id]) }))
-        // We only include architects that are called 'build'
-        .filter((architect) => architect.id === 'build')
-        .find(({ builder, executor }) => NX_PACKAGE_BUILDERS.includes(builder || executor)),
+      target: Object.keys(lib.targets)
+        .map((id) => ({ id, ...lib.targets[id] }))
+        // We only include targets that are called 'build'
+        .filter((target) => target.id === 'build')
+        .find(({ executor }) => NX_PACKAGE_BUILDERS.includes(executor)),
     }))
-    // Only release packages which turned out to have at least one 'publishable' architect
-    .filter((lib) => !!lib.architect)
+    // Only release packages which turned out to have at least one 'publishable' target
+    .filter((lib) => !!lib.target)
 
   for (const pkg of packages) {
-    log(
-      `VALIDATE`,
-      `Found builder for ${yellowBright(pkg.lib.id)}: ${gray(
-        pkg.architect.builder || pkg.architect.executor,
-      )} `,
-    )
+    log('VALIDATE', `Found executor for ${yellowBright(pkg.lib.id)}: ${gray(pkg.target.executor)} `)
   }
 
   return {
@@ -111,7 +109,7 @@ export function validatePackages(
 
   if (invalid.length) {
     const invalidIds = invalid.map((item) => item.lib.id)
-    log(red(`Could not continue because of errors in the following packages:`))
+    log(red('Could not continue because of errors in the following packages:'))
     console.log(invalidIds)
     if (!config.fix) {
       log('Try running this command with the --fix flag to fix some common problems')
@@ -121,27 +119,27 @@ export function validatePackages(
 
   const pkgFiles: string[] = workspace.packages
     .map((pkg) => {
-      if (!pkg.architect?.options?.outputPath && !pkg.architect?.options?.project) {
-        console.log('pkg.architect?.options', pkg.architect?.options)
+      if (!pkg.target?.options?.outputPath && !pkg.target?.options?.project) {
+        console.log('pkg.target?.options', pkg.target?.options)
         throw new Error(`Error determining dist path for ${pkg.lib.id}`)
       }
 
-      if (pkg.architect?.options?.outputPath) {
+      if (pkg.target?.options?.outputPath) {
         // @nrwl/node:package builder
-        return pkg.architect?.options?.outputPath
+        return pkg.target?.options?.outputPath
       }
-      if (pkg?.architect?.options?.project) {
+      if (pkg?.target?.options?.project) {
         // @nrwl/angular:package builder
-        const ngPackagePath = join(config.cwd, pkg?.architect?.options?.project)
+        const ngPackagePath = join(config.cwd, pkg?.target?.options?.project)
         const ngPackageJson = readJSONSync(ngPackagePath)
         return relative(config.cwd, resolve(pkg.lib.root, ngPackageJson.dest))
       }
-      throw new Error(`Can't find pkg file`)
+      throw new Error("Can't find pkg file")
     })
     .map((file) => join(file, 'package.json'))
 
   if (config.build) {
-    exec(`yarn nx run-many --target build --all`)
+    exec('yarn nx run-many --target build --all')
   }
 
   // Here we check of the expected packages are built
@@ -185,7 +183,7 @@ export function validatePackages(
           2,
         ),
       )
-      log(`VALIDATE`, `Allow publishing Ivy package 😘 ${pkgJson.name}`)
+      log('VALIDATE', `Allow publishing Ivy package 😘 ${pkgJson.name}`)
     }
 
     return pkgFile

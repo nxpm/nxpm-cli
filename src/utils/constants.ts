@@ -4,9 +4,8 @@ export const NX_PACKAGE_BUILDERS = [
   '@nrwl/nest:package',
   '@nrwl/node:package',
   '@nrwl/workspace:run-commands',
-  '@nrwl/web:package'
+  '@nrwl/web:package',
 ]
-export const RELEASE_IT_PACKAGE_VERSION = '0.0.0-development'
 export const NXPM_PLUGINS_CACHE = 'nxpm-plugins.json'
 export const NXPM_SANDBOX_CACHE = 'nxpm-sandbox.json'
 export const NX_PLUGINS_URL =

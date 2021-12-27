@@ -88,7 +88,7 @@ export const selectPluginFlow = async (
     pluginName = pluginResult.pluginName
   }
 
-  const plugin = plugins.find((p: NxPlugin) => p.name === pluginName)
+  const plugin: any = plugins.find((p: NxPlugin) => p.name === pluginName)
 
   if (!plugin) {
     error(`Plugin ${pluginName} not found`)

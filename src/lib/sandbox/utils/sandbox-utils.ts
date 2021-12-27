@@ -71,7 +71,7 @@ export async function sandboxUrlCache(config: SandboxConfig) {
 export async function getSandboxUrlCache(config: SandboxConfig): Promise<Sandbox[]> {
   const cacheFile = join(config.config.cacheDir, NXPM_SANDBOX_CACHE)
   const sandboxGroups = await readJSON(cacheFile)
-  return Object.values(sandboxGroups).flat()
+  return Object.values(sandboxGroups).flat() as Sandbox[]
 }
 
 export async function removeDockerImage(image: string, force: boolean) {

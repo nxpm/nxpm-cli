@@ -17,10 +17,9 @@
 [![License](https://img.shields.io/npm/l/nxpm.svg)](https://github.com/nxpm/nxpm/blob/master/package.json)
 
 <!-- toc -->
-
-- [nxpm](#nxpm)
-- [Usage](#usage)
-- [Commands](#commands)
+* [nxpm](#nxpm)
+* [Usage](#usage)
+* [Commands](#commands)
 <!-- tocstop -->
 
 ### nxpm plugins
@@ -44,39 +43,36 @@ Quickly spin up Docker based sandboxes with various NX presets installed.
 # Usage
 
 <!-- usage -->
-
 ```sh-session
 $ npm install -g nxpm
 $ nxpm COMMAND
 running command...
 $ nxpm (-v|--version|version)
-nxpm/1.18.0 darwin-x64 node-v14.15.4
+nxpm/1.18.0 darwin-x64 node-v16.13.0
 $ nxpm --help [COMMAND]
 USAGE
   $ nxpm COMMAND
 ...
 ```
-
 <!-- usagestop -->
 
 # Commands
 
 <!-- commands -->
-
-- [`nxpm config:delete`](#nxpm-configdelete)
-- [`nxpm config:edit`](#nxpm-configedit)
-- [`nxpm config:get KEY`](#nxpm-configget-key)
-- [`nxpm config:set KEY VALUE`](#nxpm-configset-key-value)
-- [`nxpm help [COMMAND]`](#nxpm-help-command)
-- [`nxpm plugins`](#nxpm-plugins)
-- [`nxpm projects [PROJECTNAME] [TARGET]`](#nxpm-projects-projectname-target)
-- [`nxpm registry:disable`](#nxpm-registrydisable)
-- [`nxpm registry:enable`](#nxpm-registryenable)
-- [`nxpm registry:start`](#nxpm-registrystart)
-- [`nxpm registry:status`](#nxpm-registrystatus)
-- [`nxpm release [VERSION]`](#nxpm-release-version)
-- [`nxpm sandbox [SANDBOXID] [ACTION]`](#nxpm-sandbox-sandboxid-action)
-- [`nxpm sandbox:pull`](#nxpm-sandboxpull)
+* [`nxpm config:delete`](#nxpm-configdelete)
+* [`nxpm config:edit`](#nxpm-configedit)
+* [`nxpm config:get KEY`](#nxpm-configget-key)
+* [`nxpm config:set KEY VALUE`](#nxpm-configset-key-value)
+* [`nxpm help [COMMAND]`](#nxpm-help-command)
+* [`nxpm plugins`](#nxpm-plugins)
+* [`nxpm projects [PROJECTNAME] [TARGET]`](#nxpm-projects-projectname-target)
+* [`nxpm registry:disable`](#nxpm-registrydisable)
+* [`nxpm registry:enable`](#nxpm-registryenable)
+* [`nxpm registry:start`](#nxpm-registrystart)
+* [`nxpm registry:status`](#nxpm-registrystatus)
+* [`nxpm release [VERSION]`](#nxpm-release-version)
+* [`nxpm sandbox [SANDBOXID] [ACTION]`](#nxpm-sandbox-sandboxid-action)
+* [`nxpm sandbox:pull`](#nxpm-sandboxpull)
 
 ## `nxpm config:delete`
 
@@ -164,7 +160,7 @@ USAGE
   $ nxpm plugins
 
 OPTIONS
-  -c, --cwd=cwd  [default: /Users/beeman/oss/nxpm-cli] Current working directory
+  -c, --cwd=cwd  [default: /Users/beeman/nxpm/nxpm-cli] Current working directory
   -h, --help     show CLI help
   -r, --refresh  Refresh the list of plugins
 
@@ -187,7 +183,7 @@ ARGUMENTS
   TARGET       The target to run (build, serve, test, etc)
 
 OPTIONS
-  -c, --cwd=cwd  [default: /Users/beeman/oss/nxpm-cli] Current working directory
+  -c, --cwd=cwd  [default: /Users/beeman/nxpm/nxpm-cli] Current working directory
   -h, --help     show CLI help
 
 ALIASES
@@ -253,7 +249,7 @@ ARGUMENTS
 
 OPTIONS
   -b, --build          Build libraries after versioning
-  -c, --cwd=cwd        [default: /Users/beeman/oss/nxpm-cli] Current working directory
+  -c, --cwd=cwd        [default: /Users/beeman/nxpm/nxpm-cli] Current working directory
   -d, --dry-run        Dry run, don't make permanent changes
   -f, --fix            Automatically fix known issues
   -h, --help           show CLI help
@@ -278,7 +274,7 @@ ARGUMENTS
   ACTION     Action to perform on sandbox
 
 OPTIONS
-  -c, --cwd=cwd        [default: /Users/beeman/oss/nxpm-cli] Current working directory
+  -c, --cwd=cwd        [default: /Users/beeman/nxpm/nxpm-cli] Current working directory
   -h, --help           show CLI help
   -r, --refresh        Refresh the list of plugins
   --port-api=port-api  [default: 3000] Port to open for the API app
@@ -304,5 +300,4 @@ OPTIONS
 ```
 
 _See code: [src/commands/sandbox/pull.ts](https://github.com/nxpm/nxpm-cli/blob/v1.18.0/src/commands/sandbox/pull.ts)_
-
 <!-- commandsstop -->

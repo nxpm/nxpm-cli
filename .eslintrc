@@ -2,5 +2,19 @@
   "extends": [
     "oclif",
     "oclif-typescript"
-  ]
+  ],
+  "rules": {
+    "object-curly-spacing": "off",
+    "no-console": "off",
+    "no-else-return": "off",
+    "no-implicit-coercion": "off",
+    "indent": "off",
+    "arrow-parens": "off",
+    "operator-linebreak": "off",
+    "no-process-exit": "off",
+    "unicorn/catch-error-name": "off",
+    "unicorn/explicit-length-check": "off",
+    "unicorn/no-process-exit": "off",
+    "@typescript-eslint/member-delimiter-style": "off"
+  }
 }
