@@ -4,7 +4,11 @@ export const NX_PACKAGE_BUILDERS = [
   '@nrwl/nest:package',
   '@nrwl/node:package',
   '@nrwl/workspace:run-commands',
+  'nx:run-commands',
   '@nrwl/web:package',
+  '@nrwl/web:rollup',
+  '@nrwl/js:tsc',
+  '@nrwl/js:swc',
 ]
 export const NXPM_PLUGINS_CACHE = 'nxpm-plugins.json'
 export const NXPM_SANDBOX_CACHE = 'nxpm-sandbox.json'

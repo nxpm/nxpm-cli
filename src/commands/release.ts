@@ -20,11 +20,6 @@ export default class Release extends BaseCommand {
     }),
     'dry-run': flags.boolean({ char: 'd', description: "Dry run, don't make permanent changes" }),
     help: flags.help({ char: 'h' }),
-    'allow-ivy': flags.boolean({
-      char: 'i',
-      description: 'Allow publishing Angular packages built for Ivy',
-      default: true,
-    }),
     fix: flags.boolean({ char: 'f', description: 'Automatically fix known issues' }),
     local: flags.boolean({
       description: 'Release package to local registry',
@@ -70,7 +65,6 @@ export default class Release extends BaseCommand {
     }
 
     await release({
-      allowIvy: flags['allow-ivy'],
       build: flags.build,
       ci: flags.ci,
       config: this.config,

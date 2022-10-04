@@ -164,33 +164,16 @@ export function validatePackages(
       ),
     )
 
-    if (
-      pkgJson.scripts?.prepublishOnly &&
-      pkgJson.scripts?.prepublishOnly.includes(
-        // Don't patronize me... Seriously, screw this shit...
-        'ERROR: Trying to publish a package that has been compiled by Ivy. This is not allowed.',
-      ) &&
-      config.allowIvy
-    ) {
-      writeFileSync(
-        pkgPath,
-        JSON.stringify(
-          {
-            ...pkgJson,
-            scripts: { ...pkgJson.scripts, prepublishOnly: 'true' },
-          },
-          null,
-          2,
-        ),
-      )
-      log('VALIDATE', `Allow publishing Ivy package 😘 ${pkgJson.name}`)
-    }
-
     return pkgFile
   })
 
   if (foundPkgFiles.length !== pkgFiles.length) {
     return false
+  }
+
+  if (!foundPkgFiles.length) {
+      error('VALIDATE', 'Found no packages to release')
+     return false
   }
 
   log('VALIDATE', `Found ${foundPkgFiles.length} packages to release`)
