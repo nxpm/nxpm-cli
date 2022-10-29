@@ -161,7 +161,7 @@ const loop = async (
 
   if (result.selection.startsWith(result.pluginName)) {
     log('Running schematic', result.selection)
-    const command = `${info.cli} generate ${result.selection}`
+    const command = `nx generate ${result.selection}`
     exec(command)
     log('Done')
   }

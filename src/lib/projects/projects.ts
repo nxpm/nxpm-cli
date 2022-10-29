@@ -163,12 +163,12 @@ const selectProjectAction = async (
     const architectParams = get(params, `${target}.params`, '')
     return {
       action: 'exec',
-      payload: `${info.cli} run ${projectName}:${target} ${architectParams}`,
+      payload: `nx run ${projectName}:${target} ${architectParams}`,
     }
   }
   if (schematics.includes(target)) {
     const params = await getSchematicParams(info.cwd, target)
-    const payload = [`${info.cli} generate ${target}`]
+    const payload = [`nx generate ${target}`]
     if (Object.keys(params.properties).length !== 0) {
       Object.keys(answers).forEach((answer) => payload.push(` --${answer} ${answers[answer]}`))
 

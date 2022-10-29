@@ -32,7 +32,6 @@ export function validateConfig(config: ReleaseConfig): ValidatedConfig | false {
     package: info.package,
     preRelease: isPrerelease,
     workspacePath: info.path,
-    workspaceType: info.type,
     workspace: info.workspace,
   }
 
@@ -47,10 +46,7 @@ export function validateConfig(config: ReleaseConfig): ValidatedConfig | false {
   }
 
   log(
-    'VALIDATE',
-    `Using ${yellowBright(validated.workspaceType)} workspace: ${gray(
-      relative(config.cwd, validated.workspacePath),
-    )}`,
+    'VALIDATE', `Using Nx workspace: ${gray(relative(config.cwd, validated.workspacePath))}`,
   )
   return validated
 }

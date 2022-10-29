@@ -166,7 +166,7 @@ const loop = async (config: SandboxConfig, { sandboxName }: { sandboxName?: stri
 
   if (result.selection.startsWith(result.sandboxName)) {
     log('Running sandbox', result.selection)
-    // const command = `${info.cli} generate ${result.selection}`
+    // const command = `nx generate ${result.selection}`
     // exec(command)
     log('Done')
   }

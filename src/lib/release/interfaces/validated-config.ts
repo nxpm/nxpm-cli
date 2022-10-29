@@ -17,6 +17,4 @@ export interface ValidatedConfig extends ReleaseConfig {
   workspace: { [key: string]: any }
   // Path to angular.json or workspace.json
   workspacePath: string
-  // Type of workspace depending on existence of angular.json or workspace.json
-  workspaceType: 'nx' | 'angular'
 }
