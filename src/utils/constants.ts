@@ -7,6 +7,7 @@ export const NX_PACKAGE_BUILDERS = [
   'nx:run-commands',
   '@nrwl/web:package',
   '@nrwl/web:rollup',
+  '@nrwl/rollup:rollup',
   '@nrwl/js:tsc',
   '@nrwl/js:swc',
 ]
